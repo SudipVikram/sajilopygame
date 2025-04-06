@@ -1,6 +1,3 @@
----
-
-```markdown
 # 🎮 sajilopygame
 
 `sajilopygame` is a beginner-friendly Python library built on top of `pygame`, designed to make 2D game development easy and accessible for students and hobbyists. With simple functions to load characters, handle movement, and update the game window, `sajilopygame` lets you focus on building games — not boilerplate code.
