@@ -30,12 +30,14 @@ game.favicon("icon.png")
 game.background_color((0, 0, 0))
 
 game.create_player("player.png")
-game.assign_lr_keys()
-game.bound_player_to_window()
 
 while True:
-    game.refresh_window()
+    
     game.load_player()
+
+    
+    game.bound_player_to_window()
+    game.refresh_window()
 ```
 
 ---
