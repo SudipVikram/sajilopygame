@@ -74,7 +74,7 @@ while True:
     else:
         game.move_top_to_bottom(type="enemy",speed=5)'''
     # mapping keystrokes to the player
-    game.map_lr_keys(type="player",intensity=(5,5))
+    game.assign_lr_keys(type="player",intensity=(5,5))
 
     # bouncing from left to right
     game.bounce_left_right(type="enemy",speed=5)

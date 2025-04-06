@@ -15,6 +15,7 @@ class sajilopygame:
         self.right_pressed = False
         self.up_pressed = False
         self.down_pressed = False
+        self.trigger_pressed = False
 
         # Mappings
         self.is_lr_mapped_to_player = False
@@ -28,6 +29,12 @@ class sajilopygame:
         self.last_detected_edge_player = None
         self.last_detected_edge_enemy = None
         self.last_detected_edge_object = None
+
+        # for assigning triggers
+        self.selected_trigger_type = "object"
+        self.selected_trigger_dir = "b2t"
+        self.selected_trigger_speed = 1
+        self.triggered_state = False
 
     # function to update the display window
     # also is responsible for quitting the program
@@ -56,6 +63,8 @@ class sajilopygame:
                     self.up_pressed = True
                 if event.key == pygame.K_DOWN:
                     self.down_pressed = True
+                if event.key == pygame.K_SPACE:
+                    self.trigger_pressed = True
 
             # Upon key release
             if event.type == pygame.KEYUP:
@@ -67,6 +76,8 @@ class sajilopygame:
                     self.up_pressed = False
                 if event.key == pygame.K_DOWN:
                     self.down_pressed = False
+                if event.key == pygame.K_SPACE:
+                    self.trigger_pressed = False
 
         # Update player position based on the key press state
         if self.is_lr_mapped_to_player:
@@ -104,6 +115,13 @@ class sajilopygame:
             if self.down_pressed:
                 self.objecty += self.object_d_intensity
 
+        # incase there is a trigger press
+        if self.trigger_pressed:
+            self.triggered_state = True
+            self.trigger_pressed = False
+
+        if self.triggered_state:
+            self.trigger()
 
     # loading the window title
     def window_title(self,title):
@@ -154,8 +172,8 @@ class sajilopygame:
     def load_object(self):
         self.screen.blit(self.object_img,(self.objectx,self.objecty))
 
-    # mapping Left, Right keystrokes
-    def map_lr_keys(self,type="player",intensity=(1,1)):
+    # assign Left, Right keystrokes
+    def assign_lr_keys(self,type="player",intensity=(1,1)):
         if type == "player":
             self.is_lr_mapped_to_player = True
             self.player_l_intensity, self.player_r_intensity = intensity
@@ -166,8 +184,8 @@ class sajilopygame:
             self.is_lr_mapped_to_object = True
             self.object_l_intensity, self.object_r_intensity = intensity
 
-    # mapping Up, Down keystrokes
-    def map_ud_keys(self,type="player",intensity=(1,1)):
+    # assign Up, Down keystrokes
+    def assign_ud_keys(self,type="player",intensity=(1,1)):
         if type == "player":
             self.is_ud_mapped_to_player = True
             self.player_u_intensity, self.player_d_intensity = intensity
@@ -189,6 +207,21 @@ class sajilopygame:
     # getting the object positions
     def find_object_position(self):
         return self.objectx, self.objecty
+
+    # update player position
+    def update_player_position(self,x,y):
+        self.playerx = x
+        self.playery = y
+
+    # update enemy position
+    def update_enemy_position(self,x,y):
+        self.enemyx = x
+        self.enemyy = y
+
+    # update object position
+    def update_object_position(self,x,y):
+        self.objectx = x
+        self.objecty = y
 
     # getting the player size
     def find_player_size(self):
@@ -329,3 +362,20 @@ class sajilopygame:
             self.move_bottom_to_top(type=type, speed=speed)
         else:
             self.move_top_to_bottom(type=type, speed=speed)
+
+    # releasing
+    def assign_trigger(self,type="object",pos=(370,240),dir="b2t",speed=1):
+        x,y = pos
+        self.update_object_position(x,y)
+        self.selected_trigger_type = "object"
+        self.selected_trigger_dir = dir
+        self.selected_trigger_speed = speed
+
+    # triggering
+    def trigger(self):
+        if self.selected_trigger_dir == "b2t":
+            self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+            x, y = self.find_object_position()
+            if y == 0:
+                self.triggered_state = False
+                print("untriggered")

@@ -3,6 +3,7 @@ from sajilopygame import sajilopygame
 game = sajilopygame()
 game.window_title("Space Invaders")
 game.favicon("ufo.png")
+state = "hold"
 
 # creating an object bullet
 game.create_object(image_path="bullet.png", org=(370 + 16, 480 + 10))
@@ -18,8 +19,8 @@ while True:
     game.load_player()
     game.load_enemy()
 
-    # mapping keystrokes to the player
-    game.map_lr_keys(type="player",intensity=(5,5))
+    # assigning keystrokes to the player
+    game.assign_lr_keys(type="player",intensity=(5,5))
 
     # animating the enemy
     #game.move_left_to_right(type="enemy",speed=5)
@@ -39,12 +40,27 @@ while True:
 
     # bouncing from left to right
     game.bounce_left_right(type="enemy",speed=5)
-    game.bounce_top_bottom(type="object",speed=5)
+    '''# always setting the player to the object
+    player_pos = game.find_player_position()
+    # updating the object's position
+    x,y = player_pos
+    game.update_object_position(x+16,y+25)
+
+    # firing the bullet
+    game.move_bottom_to_top(type="object",speed=10)'''
+
+    player_pos = game.find_player_position()
+    x,y = player_pos
+    x = x+16
+    y = y+25
+
+    # assigning the trigger
+    #game.assign_trigger(type="object",pos=(x,y),dir="b2t",speed=10)
+
 
 
     # bounding the player to the window
     game.bound_player_to_window()
     game.bound_enemy_to_window()
-    game.bound_object_to_window()
 
     game.refresh_window()
