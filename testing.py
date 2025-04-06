@@ -19,7 +19,7 @@ while True:
     game.load_enemy()
 
     # mapping keystrokes to the player
-    game.map_lr_keys_to_player(intensity=(5,5))
+    game.map_lr_keys(type="player",intensity=(5,5))
 
     # animating the enemy
     #game.move_left_to_right(type="enemy",speed=5)
@@ -39,7 +39,7 @@ while True:
 
     # bouncing from left to right
     game.bounce_left_right(type="enemy",speed=5)
-    game.bounce_top_bottom(type="player",speed=5)
+    game.bounce_top_bottom(type="object",speed=5)
 
 
     # bounding the player to the window

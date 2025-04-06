@@ -154,35 +154,29 @@ class sajilopygame:
     def load_object(self):
         self.screen.blit(self.object_img,(self.objectx,self.objecty))
 
-    # mapping Left, Right keystrokes to player
-    def map_lr_keys_to_player(self,intensity=(1,1)):
-        self.is_lr_mapped_to_player = True
-        self.player_l_intensity, self.player_r_intensity = intensity
+    # mapping Left, Right keystrokes
+    def map_lr_keys(self,type="player",intensity=(1,1)):
+        if type == "player":
+            self.is_lr_mapped_to_player = True
+            self.player_l_intensity, self.player_r_intensity = intensity
+        if type == "enemy":
+            self.is_lr_mapped_to_enemy = True
+            self.enemy_l_intensity, self.enemy_r_intensity = intensity
+        if type == "object":
+            self.is_lr_mapped_to_object = True
+            self.object_l_intensity, self.object_r_intensity = intensity
 
-    # mapping Up, Down keystrokes to player
-    def map_ud_keys_to_player(self,intensity=(1,1)):
-        self.is_ud_mapped_to_player = True
-        self.player_u_intensity, self.player_d_intensity = intensity
-
-    # mapping Left, Right keystrokes to enemy
-    def map_lr_keys_to_enemy(self,intensity=(1,1)):
-        self.is_lr_mapped_to_enemy = True
-        self.enemy_l_intensity, self.enemy_r_intensity = intensity
-
-    # mapping Up, Down keystrokes to enemy
-    def map_ud_keys_to_enemy(self,intensity=(1,1)):
-        self.is_ud_mapped_to_enemy = True
-        self.enemy_u_intensity, self.enemy_d_intensity = intensity
-
-    # mapping Left, Right keystrokes to object
-    def map_lr_keys_to_object(self,intensity=(1,1)):
-        self.is_lr_mapped_to_object = True
-        self.object_l_intensity, self.object_r_intensity = intensity
-
-    # mapping Up, Down keystrokes to object
-    def map_ud_keys_to_object(self,intensity=(1,1)):
-        self.is_ud_mapped_to_object = True
-        self.object_u_intensity, self.object_d_intensity = intensity
+    # mapping Up, Down keystrokes
+    def map_ud_keys(self,type="player",intensity=(1,1)):
+        if type == "player":
+            self.is_ud_mapped_to_player = True
+            self.player_u_intensity, self.player_d_intensity = intensity
+        if type == "enemy":
+            self.is_ud_mapped_to_enemy = True
+            self.enemy_u_intensity, self.enemy_d_intensity = intensity
+        if type == "object":
+            self.is_ud_mapped_to_object = True
+            self.object_u_intensity, self.object_d_intensity = intensity
 
     # getting the player positions
     def find_player_position(self):
