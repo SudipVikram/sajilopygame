@@ -18,19 +18,15 @@ while True:
     game.load_player()
     game.load_enemy()
 
-    # map left and right keystrokes to a player
-    game.map_lr_keys_to_player(intensity=(5,6))
-    # map up and down keystrokes to a player
-    game.map_ud_keys_to_player(intensity=(6,5))
+    # mapping keystrokes to the player
+    game.map_lr_keys_to_player(intensity=(5,5))
 
-    # map left and right keystrokes to an enemy
-    game.map_lr_keys_to_enemy(intensity=(4,3))
-    # map up and down keystrokes to an enemy
-    game.map_ud_keys_to_enemy(intensity=(4,3))
+    # bounding the player to the window
+    game.bound_player_to_window()
+    game.bound_enemy_to_window()
 
-    # map left and right keystrokes to an object
-    game.map_lr_keys_to_object(intensity=(2,4))
-    # map up and down keystrokes to an object
-    game.map_ud_keys_to_object(intensity=(6,3))
+
+
+
 
     game.refresh_window()
