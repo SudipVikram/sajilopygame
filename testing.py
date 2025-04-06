@@ -21,12 +21,21 @@ while True:
     # mapping keystrokes to the player
     game.map_lr_keys_to_player(intensity=(5,5))
 
+    # animating the enemy
+    #game.move_left_to_right(type="enemy",speed=5)
+    #game.move_right_to_left(type="player",speed=5)
+    #game.move_left_to_right(type="object",speed=5)
+
+    game.move_right_to_left(type="enemy",speed=5)
+    # detecting edge collision of enemy
+    edge = game.detect_edge(type="enemy")
+    if edge == "left":
+        game.move_left_to_right(type="enemy",speed=5)
+    elif edge == "right":
+        game.move_right_to_left(type="enemy",speed=5)
+
     # bounding the player to the window
     game.bound_player_to_window()
     game.bound_enemy_to_window()
-
-
-
-
 
     game.refresh_window()

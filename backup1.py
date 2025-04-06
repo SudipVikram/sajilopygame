@@ -49,6 +49,11 @@ while True:
     print(f"enemy width: {enemy_width} and height: {enemy_height}")
     print(f"object width: {object_width} and height: {object_height}")
 
+    # animating the enemy
+    game.move_left_to_right(type="enemy",speed=5)
+    game.move_right_to_left(type="player",speed=5)
+    game.move_left_to_right(type="object",speed=5)
+
     # bounding the player to the window
     game.bound_player_to_window()
     game.bound_enemy_to_window()

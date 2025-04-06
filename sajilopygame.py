@@ -235,3 +235,28 @@ class sajilopygame:
             self.objecty = 0
         elif self.objecty > self.wheight - self.object_height:
             self.objecty = self.wheight - self.object_height
+
+    # move from left to right
+    def move_left_to_right(self,type="enemy",speed=1):
+        if type == "enemy":
+            self.enemyx = self.enemyx + speed
+        if type == "object":
+            self.objectx = self.objectx + speed
+        if type == "player":
+            self.playerx = self.playerx + speed
+
+    # move from right to left
+    def move_right_to_left(self,type="enemy",speed=1):
+        if type == "enemy":
+            self.enemyx = self.enemyx - speed
+        if type == "object":
+            self.objectx = self.objectx - speed
+        if type == "player":
+            self.playerx = self.playerx - speed
+
+    # edge detection
+    def detect_edge(self,type="enemy"):
+        if self.enemyx == 0:
+            return "left"
+        if self.enemyx == self.wwidth:
+            return "right"
