@@ -368,7 +368,12 @@ class sajilopygame:
     def assign_trigger(self,type="object",start_pos=(370,240),dir="b2t",speed=1):
         x,y = start_pos
         if self.end_trigger == False:
-            self.update_object_position(x,y)
+            if type == "object":
+                self.update_object_position(x,y)
+            if type == "player":
+                self.update_player_position(x,y)
+            if type == "enemy":
+                self.update_enemy_position(x,y)
             self.end_trigger = True
         self.selected_trigger_type = type
         self.selected_trigger_dir = dir
@@ -376,10 +381,80 @@ class sajilopygame:
 
     # triggering
     def trigger(self):
-        if self.selected_trigger_dir == "b2t":
-            self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-            if self.selected_trigger_type == "object":
+        if self.selected_trigger_type == "object":
+            if self.selected_trigger_dir == "b2t":
+                self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
                 x, y = self.find_object_position()
                 if y <= 0-self.object_height:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "t2b":
+                self.move_top_to_bottom(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_object_position()
+                if y >= self.wheight + self.object_height:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "r2l":
+                self.move_right_to_left(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_object_position()
+                if x <= 0-self.object_width:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "l2r":
+                self.move_left_to_right(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_object_position()
+                if x >= self.wwidth + self.object_width:
+                    self.triggered_state = False
+                    self.end_trigger = False
+        # for player
+        if self.selected_trigger_type == "player":
+            if self.selected_trigger_dir == "b2t":
+                self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_player_position()
+                if y <= 0-self.player_height:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "t2b":
+                self.move_top_to_bottom(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_player_position()
+                if y >= self.wheight + self.player_height:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "r2l":
+                self.move_right_to_left(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_player_position()
+                if x <= 0-self.player_width:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "l2r":
+                self.move_left_to_right(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_player_position()
+                if x >= self.wwidth + self.player_width:
+                    self.triggered_state = False
+                    self.end_trigger = False
+        # for enemy
+        if self.selected_trigger_type == "enemy":
+            if self.selected_trigger_dir == "b2t":
+                self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_enemy_position()
+                if y <= 0-self.enemy_height:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "t2b":
+                self.move_top_to_bottom(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_enemy_position()
+                if y >= self.wheight + self.enemy_height:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "r2l":
+                self.move_right_to_left(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_enemy_position()
+                if x <= 0-self.enemy_width:
+                    self.triggered_state = False
+                    self.end_trigger = False
+            if self.selected_trigger_dir == "l2r":
+                self.move_left_to_right(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
+                x, y = self.find_enemy_position()
+                if x >= self.wwidth + self.enemy_width:
                     self.triggered_state = False
                     self.end_trigger = False
