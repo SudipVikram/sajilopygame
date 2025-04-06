@@ -35,6 +35,7 @@ class sajilopygame:
         self.selected_trigger_dir = "b2t"
         self.selected_trigger_speed = 1
         self.triggered_state = False
+        self.end_trigger = False
 
     # function to update the display window
     # also is responsible for quitting the program
@@ -364,18 +365,28 @@ class sajilopygame:
             self.move_top_to_bottom(type=type, speed=speed)
 
     # releasing
-    def assign_trigger(self,type="object",pos=(370,240),dir="b2t",speed=1):
-        x,y = pos
-        self.update_object_position(x,y)
-        self.selected_trigger_type = "object"
+    def assign_trigger(self,type="object",start_pos=(370,240),dir="b2t",speed=1):
+        x,y = start_pos
+        if self.end_trigger == False:
+            self.update_object_position(x,y)
+            self.end_trigger = True
+        self.selected_trigger_type = type
         self.selected_trigger_dir = dir
         self.selected_trigger_speed = speed
 
     # triggering
     def trigger(self):
+        print("triggered")
         if self.selected_trigger_dir == "b2t":
             self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-            x, y = self.find_object_position()
-            if y == 0:
-                self.triggered_state = False
-                print("untriggered")
+            if self.selected_trigger_type == "object":
+                x, y = self.find_object_position()
+                if y <= 0-self.object_height:
+                    self.triggered_state = False
+                    self.end_trigger = False
+
+    # realtime update object position
+    def realtime_update_object_position(self,x,y):
+        if self.end_trigger == False:
+            x,y = self.find_player_position()
+            self.update_object_position(x,y)

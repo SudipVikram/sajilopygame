@@ -40,22 +40,19 @@ while True:
 
     # bouncing from left to right
     game.bounce_left_right(type="enemy",speed=5)
-    '''# always setting the player to the object
+    # always setting the player to the object
     player_pos = game.find_player_position()
     # updating the object's position
     x,y = player_pos
-    game.update_object_position(x+16,y+25)
-
-    # firing the bullet
-    game.move_bottom_to_top(type="object",speed=10)'''
-
-    player_pos = game.find_player_position()
-    x,y = player_pos
     x = x+16
     y = y+25
+    #game.update_object_position(x,y)
+    game.realtime_update_object_position(x,y)
+
+    # for firing the bullet
 
     # assigning the trigger
-    #game.assign_trigger(type="object",pos=(x,y),dir="b2t",speed=10)
+    game.assign_trigger(type="object",start_pos=(x,y),dir="b2t",speed=50)
 
 
 
