@@ -26,16 +26,25 @@ while True:
     #game.move_right_to_left(type="player",speed=5)
     #game.move_left_to_right(type="object",speed=5)
 
-    game.move_right_to_left(type="enemy",speed=5)
+    #game.move_right_to_left(type="enemy",speed=5)
     # detecting edge collision of enemy
-    edge = game.detect_edge(type="enemy")
+    '''edge = game.detect_edge(type="enemy")
+
     if edge == "left":
         game.move_left_to_right(type="enemy",speed=5)
     elif edge == "right":
         game.move_right_to_left(type="enemy",speed=5)
+    else:
+        game.move_left_to_right(type="enemy",speed=5)'''
+
+    # bouncing from left to right
+    game.bounce_left_right(type="enemy",speed=5)
+    game.bounce_top_bottom(type="player",speed=5)
+
 
     # bounding the player to the window
     game.bound_player_to_window()
     game.bound_enemy_to_window()
+    game.bound_object_to_window()
 
     game.refresh_window()

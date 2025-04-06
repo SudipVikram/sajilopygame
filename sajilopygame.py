@@ -24,6 +24,11 @@ class sajilopygame:
         self.is_lr_mapped_to_object = False
         self.is_ud_mapped_to_object = False
 
+        # edge detection
+        self.last_detected_edge_player = None
+        self.last_detected_edge_enemy = None
+        self.last_detected_edge_object = None
+
     # function to update the display window
     # also is responsible for quitting the program
     def refresh_window(self):
@@ -254,9 +259,79 @@ class sajilopygame:
         if type == "player":
             self.playerx = self.playerx - speed
 
+    # move from up to down
+    def move_top_to_bottom(self,type="enemy",speed=1):
+        if type == "enemy":
+            self.enemyy = self.enemyy + speed
+        if type == "object":
+            self.objecty = self.objecty + speed
+        if type == "player":
+            self.playery = self.playery + speed
+
+    # move from down to up
+    def move_bottom_to_top(self,type="enemy",speed=1):
+        if type == "enemy":
+            self.enemyy = self.enemyy - speed
+        if type == "object":
+            self.objecty = self.objecty - speed
+        if type == "player":
+            self.playery = self.playery - speed
+
     # edge detection
     def detect_edge(self,type="enemy"):
-        if self.enemyx == 0:
-            return "left"
-        if self.enemyx == self.wwidth:
-            return "right"
+        if type == "player":
+            if self.playerx == 0:
+                self.last_detected_edge_player = "left"
+            if self.playerx == self.wwidth-self.player_width:
+                self.last_detected_edge_player = "right"
+            if self.playery == 0:
+                self.last_detected_edge_player = "top"
+            if self.playery == self.wheight-self.enemy_height:
+                self.last_detected_edge_player = "bottom"
+        if type == "enemy":
+            if self.enemyx == 0:
+                self.last_detected_edge_enemy = "left"
+            if self.enemyx == self.wwidth-self.enemy_width:
+                self.last_detected_edge_enemy = "right"
+            if self.enemyy == 0:
+                self.last_detected_edge_enemy = "top"
+            if self.enemyy == self.wheight-self.enemy_height:
+                self.last_detected_edge_enemy = "bottom"
+        if type == "object":
+            if self.objectx == 0:
+                self.last_detected_edge_object = "left"
+            if self.objectx == self.wwidth-self.object_width:
+                self.last_detected_edge_object = "right"
+            if self.objecty == 0:
+                self.last_detected_edge_object = "top"
+            if self.objecty == self.wheight-self.object_height:
+                self.last_detected_edge_object = "bottom"
+
+        if type == "player":
+            return self.last_detected_edge_player
+        elif type == "object":
+            return self.last_detected_edge_object
+        elif type == "enemy":
+            return self.last_detected_edge_enemy
+
+    # bouncing left and right
+    def bounce_left_right(self,type="enemy",speed=1):
+        edge = self.detect_edge(type=type)
+
+        if edge == "left":
+            self.move_left_to_right(type=type, speed=speed)
+        elif edge == "right":
+            self.move_right_to_left(type=type, speed=speed)
+        else:
+            self.move_left_to_right(type=type, speed=speed)
+
+    # bouncing top and bottom
+    def bounce_top_bottom(self,type="enemy",speed=1):
+        edge = self.detect_edge(type=type)
+
+        if edge == "top":
+            self.move_top_to_bottom(type=type, speed=speed)
+        elif edge == "bottom":
+            self.move_bottom_to_top(type=type, speed=speed)
+        else:
+            self.move_top_to_bottom(type=type, speed=speed)

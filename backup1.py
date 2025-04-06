@@ -54,6 +54,30 @@ while True:
     game.move_right_to_left(type="player",speed=5)
     game.move_left_to_right(type="object",speed=5)
 
+    # edge detection and bounce
+    edge = game.detect_edge(type="enemy")
+    print(edge)
+    print(game.find_enemy_position())
+    '''
+    from left to right and right to left
+    if edge == "left":
+        game.move_left_to_right(type="enemy",speed=5)
+    elif edge == "right":
+        game.move_right_to_left(type="enemy",speed=5)
+    else:
+        game.move_left_to_right(type="enemy",speed=5)
+    from top to bottom and bottom to top
+    if edge == "top":
+        game.move_top_to_bottom(type="enemy",speed=5)
+    elif edge == "bottom":
+        game.move_bottom_to_top(type="enemy",speed=5)
+    else:
+        game.move_top_to_bottom(type="enemy",speed=5)'''
+
+    # bouncing from left to right
+    game.bounce_left_right(type="enemy",speed=5)
+    game.bounce_top_bottom(type="player",speed=5)
+
     # bounding the player to the window
     game.bound_player_to_window()
     game.bound_enemy_to_window()
