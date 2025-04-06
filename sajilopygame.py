@@ -376,7 +376,6 @@ class sajilopygame:
 
     # triggering
     def trigger(self):
-        print("triggered")
         if self.selected_trigger_dir == "b2t":
             self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
             if self.selected_trigger_type == "object":
@@ -384,9 +383,3 @@ class sajilopygame:
                 if y <= 0-self.object_height:
                     self.triggered_state = False
                     self.end_trigger = False
-
-    # realtime update object position
-    def realtime_update_object_position(self,x,y):
-        if self.end_trigger == False:
-            x,y = self.find_player_position()
-            self.update_object_position(x,y)

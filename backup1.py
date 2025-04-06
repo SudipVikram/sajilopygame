@@ -85,4 +85,18 @@ while True:
     game.bound_enemy_to_window()
     game.bound_object_to_window()
 
+    # bouncing from left to right
+    game.bounce_left_right(type="enemy",speed=5)
+    # always setting the player to the object
+    player_pos = game.find_player_position()
+    # updating the object's position
+    x,y = player_pos
+    x = x+16
+    y = y+25
+    #game.update_object_position(x,y)
+
+    # for firing the bullet
+    # assigning the trigger
+    game.assign_trigger(type="object",start_pos=(x,y),dir="b2t",speed=50)
+
     game.refresh_window()
