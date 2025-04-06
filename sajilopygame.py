@@ -20,6 +20,8 @@ class sajilopygame:
         self.is_ud_mapped_to_player = False
         self.is_lr_mapped_to_enemy = False
         self.is_ud_mapped_to_enemy = False
+        self.is_lr_mapped_to_object = False
+        self.is_ud_mapped_to_object = False
 
     # function to update the display window
     # also is responsible for quitting the program
@@ -63,26 +65,39 @@ class sajilopygame:
         # Update player position based on the key press state
         if self.is_lr_mapped_to_player:
             if self.left_pressed:
-                self.playerx -= self.player_lr_intensity
+                self.playerx -= self.player_l_intensity
             if self.right_pressed:
-                self.playerx += self.player_lr_intensity
+                self.playerx += self.player_r_intensity
         if self.is_ud_mapped_to_player:
             if self.up_pressed:
-                self.playery -= self.player_ud_intensity
+                self.playery -= self.player_u_intensity
             if self.down_pressed:
-                self.playery += self.player_ud_intensity
+                self.playery += self.player_d_intensity
 
         # Update enemy position based on the key press state
         if self.is_lr_mapped_to_enemy:
             if self.left_pressed:
-                self.enemyx -= self.enemy_lr_intensity
+                self.enemyx -= self.enemy_l_intensity
             if self.right_pressed:
-                self.enemyx += self.enemy_lr_intensity
+                self.enemyx += self.enemy_r_intensity
         if self.is_ud_mapped_to_enemy:
             if self.up_pressed:
-                self.enemyy -= self.enemy_ud_intensity
+                self.enemyy -= self.enemy_u_intensity
             if self.down_pressed:
-                self.enemyy += self.enemy_ud_intensity
+                self.enemyy += self.enemy_d_intensity
+
+        # Update object position based on the key press state
+        if self.is_lr_mapped_to_object:
+            if self.left_pressed:
+                self.objectx -= self.object_l_intensity
+            if self.right_pressed:
+                self.objectx += self.object_r_intensity
+        if self.is_ud_mapped_to_object:
+            if self.up_pressed:
+                self.objecty -= self.object_u_intensity
+            if self.down_pressed:
+                self.objecty += self.object_d_intensity
+
 
     # loading the window title
     def window_title(self,title):
@@ -134,21 +149,31 @@ class sajilopygame:
         self.screen.blit(self.object_img,(self.objectx,self.objecty))
 
     # mapping Left, Right keystrokes to player
-    def map_lr_keys_to_player(self,intensity=1):
+    def map_lr_keys_to_player(self,intensity=(1,1)):
         self.is_lr_mapped_to_player = True
-        self.player_lr_intensity = intensity
+        self.player_l_intensity, self.player_r_intensity = intensity
 
     # mapping Up, Down keystrokes to player
-    def map_ud_keys_to_player(self,intensity=1):
+    def map_ud_keys_to_player(self,intensity=(1,1)):
         self.is_ud_mapped_to_player = True
-        self.player_ud_intensity = intensity
+        self.player_u_intensity, self.player_d_intensity = intensity
 
     # mapping Left, Right keystrokes to enemy
-    def map_lr_keys_to_enemy(self,intensity=1):
+    def map_lr_keys_to_enemy(self,intensity=(1,1)):
         self.is_lr_mapped_to_enemy = True
-        self.enemy_lr_intensity = intensity
+        self.enemy_l_intensity, self.enemy_r_intensity = intensity
 
     # mapping Up, Down keystrokes to enemy
-    def map_ud_keys_to_enemy(self,intensity=1):
+    def map_ud_keys_to_enemy(self,intensity=(1,1)):
         self.is_ud_mapped_to_enemy = True
-        self.enemy_ud_intensity = intensity
+        self.enemy_u_intensity, self.enemy_d_intensity = intensity
+
+    # mapping Left, Right keystrokes to object
+    def map_lr_keys_to_object(self,intensity=(1,1)):
+        self.is_lr_mapped_to_object = True
+        self.object_l_intensity, self.object_r_intensity = intensity
+
+    # mapping Up, Down keystrokes to object
+    def map_ud_keys_to_object(self,intensity=(1,1)):
+        self.is_ud_mapped_to_object = True
+        self.object_u_intensity, self.object_d_intensity = intensity
