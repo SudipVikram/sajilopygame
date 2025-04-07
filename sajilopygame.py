@@ -478,7 +478,7 @@ class sajilopygame:
         collision_with_x, collision_with_y = self.find_position(type=collision_with)
 
         distance = math.sqrt((math.pow(collision_with_x-collision_by_x,2)) + (math.pow(collision_with_y-collision_by_y,2)))
-        if distance <= 50:
+        if distance <= 50:  # this i am yet to determine, but i am just giving a threshold at this point
             self.collision_state = True
         else:
             self.collision_state = False
