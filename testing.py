@@ -67,8 +67,8 @@ while True:
 
 
     # bounding the player to the window
-    game.bound_player_to_window()
-    game.bound_enemy_to_window()
-    #game.bound_object_to_window()
+    game.bound_to_window(type="player")
+    game.bound_to_window(type="enemy")
+    #game.bound_to_window(type="object")
 
     game.refresh_window()

@@ -264,38 +264,35 @@ class sajilopygame:
     def find_object_size(self):
         return self.object_width, self.object_height
 
-    # bounding player to the window
-    def bound_player_to_window(self):
-        if self.playerx < 0:
-            self.playerx = 0
-        elif self.playerx > self.wwidth - self.player_width:
-            self.playerx = self.wwidth - self.player_width
-        if self.playery < 0:
-            self.playery = 0
-        elif self.playery > self.wheight - self.player_height:
-            self.playery = self.wheight - self.player_height
-
-    # bounding enemy to the window
-    def bound_enemy_to_window(self):
-        if self.enemyx < 0:
-            self.enemyx = 0
-        elif self.enemyx > self.wwidth - self.enemy_width:
-            self.enemyx = self.wwidth - self.enemy_width
-        if self.enemyy < 0:
-            self.enemyy = 0
-        elif self.enemyy > self.wheight - self.enemy_height:
-            self.enemyy = self.wheight - self.enemy_height
-
-    # bounding object to the window
-    def bound_object_to_window(self):
-        if self.objectx < 0:
-            self.objectx = 0
-        elif self.objectx > self.wwidth - self.object_width:
-            self.objectx = self.wwidth - self.object_width
-        if self.objecty < 0:
-            self.objecty = 0
-        elif self.objecty > self.wheight - self.object_height:
-            self.objecty = self.wheight - self.object_height
+    # bounding to the window
+    def bound_to_window(self,type="player"):
+        if type == "player":
+            if self.playerx < 0:
+                self.playerx = 0
+            elif self.playerx > self.wwidth - self.player_width:
+                self.playerx = self.wwidth - self.player_width
+            if self.playery < 0:
+                self.playery = 0
+            elif self.playery > self.wheight - self.player_height:
+                self.playery = self.wheight - self.player_height
+        if type == "enemy":
+            if self.enemyx < 0:
+                self.enemyx = 0
+            elif self.enemyx > self.wwidth - self.enemy_width:
+                self.enemyx = self.wwidth - self.enemy_width
+            if self.enemyy < 0:
+                self.enemyy = 0
+            elif self.enemyy > self.wheight - self.enemy_height:
+                self.enemyy = self.wheight - self.enemy_height
+        if type == "object":
+            if self.objectx < 0:
+                self.objectx = 0
+            elif self.objectx > self.wwidth - self.object_width:
+                self.objectx = self.wwidth - self.object_width
+            if self.objecty < 0:
+                self.objecty = 0
+            elif self.objecty > self.wheight - self.object_height:
+                self.objecty = self.wheight - self.object_height
 
     # move from left to right
     def move_left_to_right(self,type="enemy",speed=1):
