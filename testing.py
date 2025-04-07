@@ -58,6 +58,12 @@ while True:
     # assigning the trigger
     game.assign_trigger(type="object",start_pos=(x,y),dir="b2t",speed=50)
 
+    # assign collision effect
+    game.assign_collision_effect(type="object",effect="disappear")
+    game.assign_collision_effect(type="enemy", effect="random")
+    # detect collision
+    game.detect_collision(collision_by="object",collision_with="enemy")
+
 
 
     # bounding the player to the window

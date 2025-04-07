@@ -1,3 +1,4 @@
+import math
 import pygame
 import random
 
@@ -36,6 +37,12 @@ class sajilopygame:
         self.selected_trigger_speed = 1
         self.triggered_state = False
         self.end_trigger = False
+
+        # collisions
+        self.collision_state = False
+        self.collision_type = "enemy"
+        self.collision_effect = "disappear"
+        self.collision_count = 0
 
     # function to update the display window
     # also is responsible for quitting the program
@@ -123,6 +130,27 @@ class sajilopygame:
 
         if self.triggered_state:
             self.trigger()
+
+        # collisions
+        if self.collision_state:
+            self.collision_count += 1
+            print(self.collision_count)
+            self.collision_state = False    # resetting the value
+            if self.collision_effect == "disappear":
+                if self.collision_type == "enemy":
+                    self.update_enemy_position(self.enemyx-self.wwidth, self.enemyy-self.wheight)
+                if self.collision_type == "player":
+                    self.update_player_position(self.playerx-self.wwidth, self.playery-self.wheight)
+                if self.collision_type == "object":
+                    self.update_object_position(self.objectx-self.wwidth, self.objecty-self.wheight)
+            if self.collision_effect == "random":
+                if self.collision_type == "enemy":
+                    self.move_to_random(type="enemy")
+                if self.collision_type == "player":
+                    self.move_to_random(type="player")
+                if self.collision_type == "object":
+                    self.move_to_random(type="object")
+
 
     # loading the window title
     def window_title(self,title):
@@ -458,3 +486,42 @@ class sajilopygame:
                 if x >= self.wwidth + self.enemy_width:
                     self.triggered_state = False
                     self.end_trigger = False
+
+    # assigning collision effects
+    def assign_collision_effect(self,type="enemy",effect="disappear"):
+        self.collision_type = type
+        self.collision_effect = effect
+
+    # collision detection
+    def detect_collision(self,collision_by="object",collision_with="enemy"):
+        if collision_by == "player":
+            collision_by_x, collision_by_y = self.find_player_position()
+        if collision_by == "enemy":
+            collision_by_x, collision_by_y = self.find_enemy_position()
+        if collision_by == "object":
+            collision_by_x, collision_by_y = self.find_object_position()
+
+        if collision_with == "player":
+            collision_with_x, collision_with_y = self.find_player_position()
+        if collision_with == "enemy":
+            collision_with_x, collision_with_y = self.find_enemy_position()
+        if collision_with == "object":
+            collision_with_x, collision_with_y = self.find_object_position()
+
+        distance = math.sqrt((math.pow(collision_with_x-collision_by_x,2)) + (math.pow(collision_with_y-collision_by_y,2)))
+        if distance <= 50:
+            self.collision_state = True
+        else:
+            self.collision_state = False
+
+    # function to move to random place
+    def move_to_random(self, type="enemy"):
+        if type == "player":
+            self.playerx = random.randint(0, self.wwidth - self.player_width)
+            self.playery = random.randint(0, self.wheight - self.player_height)
+        if type == "enemy":
+            self.enemyx = random.randint(0, self.wwidth - self.enemy_width)
+            self.enemyy = random.randint(0, self.wheight - self.enemy_height)
+        if type == "object":
+            self.objectx = random.randint(0, self.wwidth - self.object_width)
+            self.objecty = random.randint(0, self.wheight - self.object_height)
