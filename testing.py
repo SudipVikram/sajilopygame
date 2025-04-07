@@ -5,6 +5,7 @@ game.window_title("Space Invaders")
 game.favicon("assets/ufo.png")
 state = "hold"
 
+# need to work on the commits(just a comment)
 # creating an object bullet
 game.create_object(image_path="assets/bullet.png", org=(370 + 16, 480 + 10))
 # creating a player
