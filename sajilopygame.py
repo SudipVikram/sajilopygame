@@ -138,18 +138,14 @@ class sajilopygame:
             self.collision_state = False    # resetting the value
             if self.collision_effect == "disappear":
                 if self.collision_type == "enemy":
-                    self.update_enemy_position(self.enemyx-self.wwidth, self.enemyy-self.wheight)
-                if self.collision_type == "player":
-                    self.update_player_position(self.playerx-self.wwidth, self.playery-self.wheight)
+                    x, y = self.enemyx, self.enemyy
                 if self.collision_type == "object":
-                    self.update_object_position(self.objectx-self.wwidth, self.objecty-self.wheight)
+                    x, y = self.objectx, self.objecty
+                if self.collision_type == "player":
+                    x, y = self.playerx, self.playery
+                self.update_position(type=self.collision_type,xpos=x-self.wwidth,ypos=y-self.wheight)
             if self.collision_effect == "random":
-                if self.collision_type == "enemy":
-                    self.move_to_random(type="enemy")
-                if self.collision_type == "player":
-                    self.move_to_random(type="player")
-                if self.collision_type == "object":
-                    self.move_to_random(type="object")
+                self.move_to_random(type=self.collision_type)
 
 
     # loading the window title
@@ -237,32 +233,26 @@ class sajilopygame:
     def find_object_position(self):
         return self.objectx, self.objecty
 
-    # update player position
-    def update_player_position(self,x,y):
-        self.playerx = x
-        self.playery = y
+    # update position
+    def update_position(self,type="player",xpos=0,ypos=0):
+        if type == "player":
+            self.playerx = xpos
+            self.playery = ypos
+        if type == "enemy":
+            self.enemyx = xpos
+            self.enemyy = ypos
+        if type == "object":
+            self.objectx = xpos
+            self.objecty = ypos
 
-    # update enemy position
-    def update_enemy_position(self,x,y):
-        self.enemyx = x
-        self.enemyy = y
-
-    # update object position
-    def update_object_position(self,x,y):
-        self.objectx = x
-        self.objecty = y
-
-    # getting the player size
-    def find_player_size(self):
-        return self.player_width, self.player_height
-
-    # getting the enemy size
-    def find_enemy_size(self):
-        return self.enemy_width, self.enemy_height
-
-    # getting the object size
-    def find_object_size(self):
-        return self.object_width, self.object_height
+    # getting the size
+    def find_size(self,type="player"):
+        if type == "player":
+            return self.player_width, self.player_height
+        if type == "enemy":
+            return self.enemy_width, self.enemy_height
+        if type == "object":
+            return self.object_width, self.object_height
 
     # bounding to the window
     def bound_to_window(self,type="player"):
@@ -393,12 +383,7 @@ class sajilopygame:
     def assign_trigger(self,type="object",start_pos=(370,240),dir="b2t",speed=1):
         x,y = start_pos
         if self.end_trigger == False:
-            if type == "object":
-                self.update_object_position(x,y)
-            if type == "player":
-                self.update_player_position(x,y)
-            if type == "enemy":
-                self.update_enemy_position(x,y)
+            self.update_position(type=type,xpos=x,ypos=y)
             self.end_trigger = True
         self.selected_trigger_type = type
         self.selected_trigger_dir = dir

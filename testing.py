@@ -44,7 +44,7 @@ while True:
 
     enemy_xpos, enemy_ypos = game.find_enemy_position()
     if enemy_xpos <= 0 or enemy_xpos >= 736:
-        game.update_enemy_position(enemy_xpos,enemy_ypos+30)
+        game.update_position(type="enemy",xpos=enemy_xpos,ypos=enemy_ypos+30)
 
     # always setting the player to the object
     player_pos = game.find_player_position()
