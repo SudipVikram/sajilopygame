@@ -503,3 +503,7 @@ class sajilopygame:
         score_rect = score_text.get_rect()
         score_rect.center = (self.wwidth/2-300, 50)
         self.screen.blit(score_text, score_rect)
+
+    # get score
+    def get_score(self):
+        return self.collision_count
