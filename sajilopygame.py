@@ -494,3 +494,12 @@ class sajilopygame:
         if type == "object":
             self.objectx = random.randint(0, self.wwidth - self.object_width)
             self.objecty = random.randint(0, self.wheight - self.object_height)
+
+    # display score
+    def display_score(self,score=0):
+        score = self.collision_count
+        score_font = pygame.font.SysFont("comicsansms", 30)
+        score_text = score_font.render("Score : " + str(score), True, (255, 255, 255))
+        score_rect = score_text.get_rect()
+        score_rect.center = (self.wwidth/2-300, 50)
+        self.screen.blit(score_text, score_rect)
