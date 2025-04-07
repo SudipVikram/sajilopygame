@@ -221,17 +221,14 @@ class sajilopygame:
             self.is_ud_mapped_to_object = True
             self.object_u_intensity, self.object_d_intensity = intensity
 
-    # getting the player positions
-    def find_player_position(self):
-        return self.playerx, self.playery
-
-    # getting the enemy positions
-    def find_enemy_position(self):
-        return self.enemyx, self.enemyy
-
-    # getting the object positions
-    def find_object_position(self):
-        return self.objectx, self.objecty
+    # getting the positions
+    def find_position(self,type="player"):
+        if type == "player":
+            return self.playerx, self.playery
+        if type == "enemy":
+            return self.enemyx, self.enemyy
+        if type == "object":
+            return self.objectx, self.objecty
 
     # update position
     def update_position(self,type="player",xpos=0,ypos=0):
@@ -394,25 +391,25 @@ class sajilopygame:
         if self.selected_trigger_type == "object":
             if self.selected_trigger_dir == "b2t":
                 self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_object_position()
+                x, y = self.find_position(type="object")
                 if y <= 0-self.object_height:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "t2b":
                 self.move_top_to_bottom(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_object_position()
+                x, y = self.find_position(type="object")
                 if y >= self.wheight + self.object_height:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "r2l":
                 self.move_right_to_left(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_object_position()
+                x, y = self.find_position(type="object")
                 if x <= 0-self.object_width:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "l2r":
                 self.move_left_to_right(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_object_position()
+                x, y = self.find_position(type="object")
                 if x >= self.wwidth + self.object_width:
                     self.triggered_state = False
                     self.end_trigger = False
@@ -420,25 +417,25 @@ class sajilopygame:
         if self.selected_trigger_type == "player":
             if self.selected_trigger_dir == "b2t":
                 self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_player_position()
+                x, y = self.find_position(type="player")
                 if y <= 0-self.player_height:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "t2b":
                 self.move_top_to_bottom(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_player_position()
+                x, y = self.find_position(type="player")
                 if y >= self.wheight + self.player_height:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "r2l":
                 self.move_right_to_left(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_player_position()
+                x, y = self.find_position(type="player")
                 if x <= 0-self.player_width:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "l2r":
                 self.move_left_to_right(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_player_position()
+                x, y = self.find_position(type="player")
                 if x >= self.wwidth + self.player_width:
                     self.triggered_state = False
                     self.end_trigger = False
@@ -446,25 +443,25 @@ class sajilopygame:
         if self.selected_trigger_type == "enemy":
             if self.selected_trigger_dir == "b2t":
                 self.move_bottom_to_top(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_enemy_position()
+                x, y = self.find_position(type="enemy")
                 if y <= 0-self.enemy_height:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "t2b":
                 self.move_top_to_bottom(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_enemy_position()
+                x, y = self.find_position(type="enemy")
                 if y >= self.wheight + self.enemy_height:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "r2l":
                 self.move_right_to_left(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_enemy_position()
+                x, y = self.find_position(type="enemy")
                 if x <= 0-self.enemy_width:
                     self.triggered_state = False
                     self.end_trigger = False
             if self.selected_trigger_dir == "l2r":
                 self.move_left_to_right(type=self.selected_trigger_type, speed=self.selected_trigger_speed)
-                x, y = self.find_enemy_position()
+                x, y = self.find_position(type="enemy")
                 if x >= self.wwidth + self.enemy_width:
                     self.triggered_state = False
                     self.end_trigger = False
@@ -476,19 +473,9 @@ class sajilopygame:
 
     # collision detection
     def detect_collision(self,collision_by="object",collision_with="enemy"):
-        if collision_by == "player":
-            collision_by_x, collision_by_y = self.find_player_position()
-        if collision_by == "enemy":
-            collision_by_x, collision_by_y = self.find_enemy_position()
-        if collision_by == "object":
-            collision_by_x, collision_by_y = self.find_object_position()
+        collision_by_x, collision_by_y = self.find_position(type=collision_by)
 
-        if collision_with == "player":
-            collision_with_x, collision_with_y = self.find_player_position()
-        if collision_with == "enemy":
-            collision_with_x, collision_with_y = self.find_enemy_position()
-        if collision_with == "object":
-            collision_with_x, collision_with_y = self.find_object_position()
+        collision_with_x, collision_with_y = self.find_position(type=collision_with)
 
         distance = math.sqrt((math.pow(collision_with_x-collision_by_x,2)) + (math.pow(collision_with_y-collision_by_y,2)))
         if distance <= 50:

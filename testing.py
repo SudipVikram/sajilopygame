@@ -42,12 +42,12 @@ while True:
     # bouncing from left to right
     game.bounce_left_right(type="enemy",speed=5)
 
-    enemy_xpos, enemy_ypos = game.find_enemy_position()
+    enemy_xpos, enemy_ypos = game.find_position(type="enemy")
     if enemy_xpos <= 0 or enemy_xpos >= 736:
         game.update_position(type="enemy",xpos=enemy_xpos,ypos=enemy_ypos+30)
 
     # always setting the player to the object
-    player_pos = game.find_player_position()
+    player_pos = game.find_position(type="player")
     # updating the object's position
     x,y = player_pos
     x = x+16
