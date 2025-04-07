@@ -2,7 +2,7 @@ from sajilopygame import sajilopygame
 
 game = sajilopygame()
 game.window_title("Space Invaders")
-game.favicon("ufo.png")
+game.favicon("assets/ufo.png")
 state = "hold"
 
 # creating an object bullet
@@ -14,7 +14,7 @@ game.create_enemy(image_path="assets/alien.png", org=(370, 40))
 
 while True:
     game.background_color((255, 255, 255))
-    game.background_image('background.png')
+    game.background_image('assets/background.png')
     game.load_object()
     game.load_player()
     game.load_enemy()
