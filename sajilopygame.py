@@ -45,6 +45,10 @@ class sajilopygame:
         self.collision_effect = "disappear"
         self.collision_count = 0
 
+        # limits
+        self.random_ximit = (0,0)
+        self.random_yimit = (0,0)
+
         # sounds
         self.collision_sound_path = None
         self.collision_sound_volume = 0.5
@@ -487,6 +491,16 @@ class sajilopygame:
     def assign_collision_effect(self,type="enemy",effect="disappear"):
         self.collision_type = type
         self.collision_effect = effect
+
+    # assign collision limits
+    def limit_randomness(self,type="enemy",xlimit=(0,0),ylimit=(0,0)):
+        self.random_ximit = xlimit
+        self.random_ylimit = ylimit
+        lower_xlimit, upper_xlimit = self.random_ximit
+        upper_ylimit, lower_ylimit = self.random_ylimit
+        xpos, ypos = self.find_position(type=type)
+        if lower_xlimit <= xpos <= upper_xlimit or lower_ylimit <= ypos <= upper_ylimit:
+            self.move_to_random(type=type)
 
     # collision detection
     def detect_collision(self,collision_by="object",collision_with="enemy"):

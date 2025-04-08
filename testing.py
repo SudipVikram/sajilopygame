@@ -18,7 +18,7 @@ game.create_enemy(image_path="assets/alien.png", org=(370, 40))
 
 # working with sounds
 game.load_sound(sound_path="assets/background.wav",type="background",volume=0.5)
-game.load_sound(sound_path="assets/explosion.wav", type="collision", volume=0.5)
+game.load_sound(sound_path="assets/explosion.wav", type="collision", volume=1)
 game.load_sound(sound_path="assets/laser.wav", type="trigger", volume=0.5)
 
 while True:
@@ -81,6 +81,9 @@ while True:
     # detect collision
     game.detect_collision(collision_by="object",collision_with="enemy")
     #game2.detect_collision(collision_by="object", collision_with="enemy")
+
+    # limitint the randomness
+    game.limit_randomness(type="enemy",xlimit=(0,0),ylimit=(0,400))
 
     # displaying the score
     game.display_score()
