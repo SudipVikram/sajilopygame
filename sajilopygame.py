@@ -1,6 +1,7 @@
 import math
 import pygame
 import random
+from pygame import mixer
 
 class sajilopygame:
     def __init__(self,wwidth=800,wheight=600):
@@ -43,6 +44,17 @@ class sajilopygame:
         self.collision_type = "enemy"
         self.collision_effect = "disappear"
         self.collision_count = 0
+
+        # sounds
+        self.collision_sound_path = None
+        self.collision_sound_volume = 0.5
+        self.collision_sound_activated = False
+        self.random_sound_path = None
+        self.random_sound_volume = 0.5
+        self.random_sound_activated = False
+        self.trigger_sound_path = None
+        self.trigger_sound_volume = 0.5
+        self.trigger_sound_activated = False
 
     # function to update the display window
     # also is responsible for quitting the program
@@ -465,6 +477,11 @@ class sajilopygame:
                 if x >= self.wwidth + self.enemy_width:
                     self.triggered_state = False
                     self.end_trigger = False
+        # checking for sound in trigger and activating it
+        if self.trigger_sound_activated:
+            self.trigger_sound = pygame.mixer.Sound(self.trigger_sound_path)
+            self.trigger_sound.set_volume(self.trigger_sound_volume)
+            self.trigger_sound.play()
 
     # assigning collision effects
     def assign_collision_effect(self,type="enemy",effect="disappear"):
@@ -480,6 +497,11 @@ class sajilopygame:
         distance = math.sqrt((math.pow(collision_with_x-collision_by_x,2)) + (math.pow(collision_with_y-collision_by_y,2)))
         if distance <= 50:  # this i am yet to determine, but i am just giving a threshold at this point
             self.collision_state = True
+            # checking for collision sound and activating it
+            if self.collision_sound_activated:
+                self.collision_sound = pygame.mixer.Sound(self.collision_sound_path)
+                self.collision_sound.set_volume(self.collision_sound_volume)
+                self.collision_sound.play()
         else:
             self.collision_state = False
 
@@ -494,6 +516,11 @@ class sajilopygame:
         if type == "object":
             self.objectx = random.randint(0, self.wwidth - self.object_width)
             self.objecty = random.randint(0, self.wheight - self.object_height)
+        # checking for sound in randomness and activating it
+        if self.random_sound_activated:
+            self.random_sound = pygame.mixer.Sound(self.random_sound_path)
+            self.random_sound.set_volume(self.random_sound_volume)
+            self.random_sound.play()
 
     # display score
     def display_score(self,score=0):
@@ -507,3 +534,22 @@ class sajilopygame:
     # get score
     def get_score(self):
         return self.collision_count
+
+    # loading sound
+    def load_sound(self,sound_path=None,type="background",volume=0.5):
+        if type == "background":
+            self.background_sound = pygame.mixer.Sound(sound_path)
+            self.background_sound.set_volume(volume)
+            self.background_sound.play(-1)
+        if type == "collision":
+            self.collision_sound_path = pygame.mixer.Sound(sound_path)
+            self.collision_sound_volume = volume
+            self.collision_sound_activated = True
+        if type == "random":
+            self.random_sound_path = pygame.mixer.Sound(sound_path)
+            self.random_sound_volume = volume
+            self.random_sound_activated = True
+        if type == "trigger":
+            self.trigger_sound_path = pygame.mixer.Sound(sound_path)
+            self.trigger_sound_volume = volume
+            self.trigger_sound_activated = True

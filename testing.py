@@ -16,6 +16,11 @@ game.create_player(image_path="assets/spaceship.png", org=(370, 480))
 game.create_enemy(image_path="assets/alien.png", org=(370, 40))
 #game2.create_enemy(image_path="assets/monster.png", org=(370, 40))
 
+# working with sounds
+game.load_sound(sound_path="assets/background.wav",type="background",volume=0.5)
+game.load_sound(sound_path="assets/explosion.wav", type="collision", volume=0.5)
+game.load_sound(sound_path="assets/laser.wav", type="trigger", volume=0.5)
+
 while True:
     game.background_color((255, 255, 255))
     game.background_image('assets/background.png')
