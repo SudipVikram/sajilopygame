@@ -1,4 +1,6 @@
 import math
+import time
+
 import pygame
 import random
 from pygame import mixer
@@ -59,6 +61,13 @@ class sajilopygame:
         self.trigger_sound_path = None
         self.trigger_sound_volume = 0.5
         self.trigger_sound_activated = False
+        self.death_sound_path = None
+        self.death_sound_volume = 0.5
+        self.death_sound_activated = False
+
+        # lives
+        self.lives = 3
+        self.game_over_state = False
 
     # function to update the display window
     # also is responsible for quitting the program
@@ -162,6 +171,10 @@ class sajilopygame:
                 self.update_position(type=self.collision_type,xpos=x-self.wwidth,ypos=y-self.wheight)
             if self.collision_effect == "random":
                 self.move_to_random(type=self.collision_type)
+
+        # checking for game over
+        if self.lives == 0:
+            self.game_over()
 
 
     # loading the window title
@@ -539,10 +552,10 @@ class sajilopygame:
     # display score
     def display_score(self,score=0):
         score = self.collision_count
-        score_font = pygame.font.SysFont("comicsansms", 30)
+        score_font = pygame.font.SysFont("comicsansms", 20)
         score_text = score_font.render("Score : " + str(score), True, (255, 255, 255))
         score_rect = score_text.get_rect()
-        score_rect.center = (self.wwidth/2-300, 50)
+        score_rect.center = (self.wwidth/2-300, 40)
         self.screen.blit(score_text, score_rect)
 
     # get score
@@ -567,3 +580,52 @@ class sajilopygame:
             self.trigger_sound_path = pygame.mixer.Sound(sound_path)
             self.trigger_sound_volume = volume
             self.trigger_sound_activated = True
+        if type == "death":
+            self.death_sound_path = pygame.mixer.Sound(sound_path)
+            self.death_sound_volume = volume
+            self.death_sound_activated = True
+
+    # update max lives
+    def update_max_lives(self,max_lives=3):
+        self.max_lives = max_lives
+
+    # decrease life
+    def decrease_life(self):
+        self.lives -= 1
+        # checking for sound in trigger and activating it
+        if self.death_sound_activated:
+            self.death_sound = pygame.mixer.Sound(self.death_sound_path)
+            self.death_sound.set_volume(self.death_sound_volume)
+            self.death_sound.play()
+
+    # increase life
+    def increase_life(self):
+        self.lives += 1
+
+    # display lives
+    def display_lives(self,score=0):
+        life = self.lives
+        life_font = pygame.font.SysFont("comicsansms", 20)
+        life_text = life_font.render("Lives : " + str(life), True, (255, 255, 255))
+        life_rect = life_text.get_rect()
+        life_rect.center = (self.wwidth/2-300, 70)
+        self.screen.blit(life_text, life_rect)
+
+    # game over
+    def game_over(self):
+        print("GAME OVER")
+        gameover_font = pygame.font.SysFont("comicsansms", 100)
+        gameover_text = gameover_font.render("GAME OVER ", True, (255, 0, 0))
+        gameover_rect = gameover_text.get_rect()
+        gameover_rect.center = (self.wwidth/2, self.wheight/2)
+        self.screen.blit(gameover_text, gameover_rect)
+        pygame.mixer.music.stop()
+        pygame.mixer.stop()
+        # Update the display after rendering
+        pygame.display.update()
+        # killing the program
+        self.game_over_state = True
+        while self.game_over_state:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.game_over_state = False  # Exit the pause loop without quitting the application

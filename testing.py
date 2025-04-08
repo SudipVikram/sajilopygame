@@ -20,6 +20,7 @@ game.create_enemy(image_path="assets/alien.png", org=(370, 40))
 game.load_sound(sound_path="assets/background.wav",type="background",volume=0.5)
 game.load_sound(sound_path="assets/explosion.wav", type="collision", volume=1)
 game.load_sound(sound_path="assets/laser.wav", type="trigger", volume=0.5)
+game.load_sound(sound_path="assets/explosion.wav", type="death", volume=0.5)
 
 while True:
     game.background_color((255, 255, 255))
@@ -87,6 +88,14 @@ while True:
 
     # displaying the score
     game.display_score()
+
+    # checking for lives
+    ypos = game.find_position(type="enemy")[1]
+    if ypos >= 400:
+        game.decrease_life()
+        game.move_to_random(type="enemy")
+    # displaying the lives
+    game.display_lives()
 
     # bounding the player to the window
     game.bound_to_window(type="player")
