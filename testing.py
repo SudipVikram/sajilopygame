@@ -83,8 +83,8 @@ while True:
     game.detect_collision(collision_by="object",collision_with="enemy")
     #game2.detect_collision(collision_by="object", collision_with="enemy")
 
-    # limitint the randomness
-    game.limit_randomness(type="enemy",xlimit=(0,0),ylimit=(0,400))
+    # limiting the randomness
+    game.limit_randomness(type="enemy",xlimit=(0,0),ylimit=(0,450))
 
     # displaying the score
     game.display_score()
