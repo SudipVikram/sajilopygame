@@ -9,7 +9,7 @@ basicgame.favicon("firstgame/favicon.png")
 
 # creating characters
 basicgame.create_player("firstgame/astronaut.png")
-basicgame.create_enemy("firstgame/monster.png")
+basicgame.create_enemy("firstgame/monster.png",org=(0,200))
 
 while True:
     # changing background parameters
@@ -25,13 +25,15 @@ while True:
     basicgame.assign_ud_keys(type="player", intensity=(10, 5))
 
     # finding enemy's position
-    x = basicgame.find_position(type="enemy")[0]
-
+    #x = basicgame.find_position(type="enemy")[0]
     # update the position of enemy
     # basicgame.update_position(type="enemy",xpos=x,ypos=300)
 
     # moving enemy from left to right
     basicgame.bounce_left_right(type="enemy", speed=10)
+
+    # moving enemy up and down
+    basicgame.bounce_up_down(type="enemy", speed=10)
 
     # collision event
     basicgame.assign_collision_effect(type="enemy", effect="random")

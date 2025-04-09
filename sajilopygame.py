@@ -394,6 +394,17 @@ class sajilopygame:
         else:
             self.move_left_to_right(type=type, speed=speed)
 
+    # bouncing up and down
+    def bounce_up_down(self,type="enemy",speed=1):
+        edge = self.detect_edge(type=type)
+
+        if edge == "top":
+            self.move_top_to_bottom(type=type, speed=speed)
+        elif edge == "bottom":
+            self.move_bottom_to_top(type=type, speed=speed)
+        else:
+            self.move_top_to_bottom(type=type, speed=speed)
+
     # bouncing top and bottom
     def bounce_top_bottom(self,type="enemy",speed=1):
         edge = self.detect_edge(type=type)
