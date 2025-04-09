@@ -198,6 +198,7 @@ class sajilopygame:
 
     # creating a player
     def create_player(self,image_path,org=(370,480)):
+        self.player_image_path = image_path
         self.playerx, self.playery = org
         self.player_img = pygame.image.load(image_path)
         self.player_width, self.player_height = self.player_img.get_size()
@@ -208,6 +209,7 @@ class sajilopygame:
 
     # creating an enemy
     def create_enemy(self,image_path,org=(370,40)):
+        self.enemy_image_path = image_path
         self.enemyx, self.enemyy = org
         self.enemy_img = pygame.image.load(image_path)
         self.enemy_width, self.enemy_height = self.enemy_img.get_size()
@@ -218,6 +220,7 @@ class sajilopygame:
 
     # creating an object
     def create_object(self,image_path,org=(370,240)):
+        self.object_image_path = image_path
         self.objectx, self.objecty = org
         self.object_img = pygame.image.load(image_path)
         self.object_width, self.object_height = self.object_img.get_size()
