@@ -56,7 +56,7 @@ while True:
     ex3, ey3 = goose3.find_position(type="enemy")
     # once it goes out of bounds
     if ex3 < 0:
-        game.update_position(type="enemy", xpos=900, ypos=random.randint(5, 150))
+        goose3.update_position(type="enemy", xpos=900, ypos=random.randint(5, 150))
 
     # moving the object left to right  # object here meaning the egg
     game.move_top_to_bottom(type="object",speed=10)
