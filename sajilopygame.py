@@ -235,7 +235,7 @@ class sajilopygame:
                     self.screen.blit(left_image,(self.playerx,self.playery))
                 else:
                     self.screen.blit(self.player_img, (self.playerx, self.playery))
-            if self.right_pressed and self.up_pressed:
+            elif self.right_pressed and self.up_pressed:
                 if os.path.exists(up_right_image_placeholder):
                     up_right_image = pygame.image.load(up_right_image_placeholder)
                     self.screen.blit(up_right_image,(self.playerx,self.playery))
@@ -249,18 +249,20 @@ class sajilopygame:
                     self.screen.blit(right_image,(self.playerx,self.playery))
                 else:
                     self.screen.blit(self.player_img, (self.playerx, self.playery))
-            if self.up_pressed and not self.left_pressed and not self.right_pressed:
+            elif self.up_pressed and not self.left_pressed and not self.right_pressed:
                 if os.path.exists(up_image_placeholder):
                     up_image = pygame.image.load(up_image_placeholder)
                     self.screen.blit(up_image,(self.playerx,self.playery))
                 else:
                     self.screen.blit(self.player_img, (self.playerx, self.playery))
-            if self.down_pressed and not self.left_pressed and not self.right_pressed:
+            elif self.down_pressed and not self.left_pressed and not self.right_pressed:
                 if os.path.exists(down_image_placeholder):
                     down_image = pygame.image.load(down_image_placeholder)
                     self.screen.blit(down_image,(self.playerx,self.playery))
                 else:
                     self.screen.blit(self.player_img, (self.playerx, self.playery))
+            else:
+                self.screen.blit(self.player_img, (self.playerx, self.playery))
         else:
             self.screen.blit(self.player_img, (self.playerx, self.playery))
 
