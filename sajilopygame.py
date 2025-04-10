@@ -696,9 +696,9 @@ class sajilopygame:
 
     # assign collision limits
     def limit_randomness(self,type="enemy",xlimit=(0,0),ylimit=(0,0)):
-        self.random_ximit = xlimit
+        self.random_xlimit = xlimit
         self.random_ylimit = ylimit
-        lower_xlimit, upper_xlimit = self.random_ximit
+        lower_xlimit, upper_xlimit = self.random_xlimit
         upper_ylimit, lower_ylimit = self.random_ylimit
         xpos, ypos = self.find_position(type=type)
         if lower_xlimit <= xpos <= upper_xlimit or lower_ylimit <= ypos <= upper_ylimit:
