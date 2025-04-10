@@ -1,3 +1,13 @@
+"""
+This is a library by Beyond Apogee, Nepal tailored
+for the school-level students that we educate in our
+robotics program.
+@ developer: Beyond Apogee
+@ author: Sudip Vikram Adhikari
+@ version: 1.0
+@ license: MIT
+"""
+
 import math
 import os
 import time
