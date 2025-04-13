@@ -25,6 +25,10 @@ class sajilopygame:
         pygame.init()
         self.screen = pygame.display.set_mode((self.wwidth,self.wheight))
 
+        # initializing time
+        self.clock = pygame.time.Clock()
+        self.fps = 60
+
         # Movement states for keys
         self.left_pressed = False
         self.right_pressed = False
@@ -79,6 +83,9 @@ class sajilopygame:
         # lives
         self.lives = 3
         self.game_over_state = False
+
+        # transformations
+        self.player_transformed = False
 
     # function to update the display window
     # also is responsible for quitting the program
@@ -187,6 +194,9 @@ class sajilopygame:
         if self.lives == 0:
             self.game_over()
 
+        # setting the fps
+        self.clock.tick(self.fps)
+
 
     # loading the window title
     def window_title(self,title):
@@ -211,12 +221,15 @@ class sajilopygame:
     def create_player(self,image_path,org=(370,480)):
         self.player_image_path = image_path
         self.playerx, self.playery = org
-        self.player_img = pygame.image.load(image_path)
+        self.player_img = pygame.image.load(image_path).convert_alpha()
         self.player_width, self.player_height = self.player_img.get_size()
+        self.player_rect = self.player_img.get_rect()
 
     # loading a player
     def load_player(self):
-        if self.is_lr_mapped_to_player:
+        if self.player_transformed:
+            return      # transformation set in
+        elif self.is_lr_mapped_to_player:
             # checking if there are other images for each keystroke
             pathname = os.path.dirname(self.player_image_path)
             image_name = self.player_image_path.split("/")[-1]
@@ -543,7 +556,7 @@ class sajilopygame:
                 self.last_detected_edge_player = "right"
             if self.playery == 0:
                 self.last_detected_edge_player = "top"
-            if self.playery == self.wheight-self.enemy_height:
+            if self.playery == self.wheight-self.player_height:
                 self.last_detected_edge_player = "bottom"
         if type == "enemy":
             if self.enemyx == 0:
@@ -828,3 +841,41 @@ class sajilopygame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.game_over_state = False  # Exit the pause loop without quitting the application
+
+    # tranformations
+    def transform(self,type="player",style="flip_horizontally",angle=None,factor=None):
+        transformed_img = None  # setting local variable
+        if type == "player":
+            if style == "flip_horizontally":
+                transformed_img = pygame.transform.flip(self.player_img, True, False)
+                self.player_transformed = True
+            elif style == "flip_vertically":
+                transformed_img = pygame.transform.flip(self.player_img, False, True)
+                self.player_transformed = True
+            elif style == "rotate":
+                if angle is None:
+                    print("angle not specified")
+                    return
+                transformed_img = pygame.transform.rotate(self.player_img, angle)
+                self.player_transformed = True
+            elif style == "scale":
+                if factor is None:
+                    print("scaling factor not specified")
+                    return
+                new_width = int(self.player_img.get_width() * factor)
+                new_height = int(self.player_img.get_height() * factor)
+                transformed_img = pygame.transform.smoothscale(self.player_img, (new_width, new_height))
+            else:
+                print("incorrect style option")
+        self.screen.blit(transformed_img, (self.playerx, self.playery))
+        pygame.display.flip()
+
+    # setting the fps of the screen
+    def set_fps(self,fps=60):
+        self.fps = fps
+
+    # setting a delay on the screen
+    def delay_screen_refresh(self,delay=1):
+        # turning milliseconds to seconds
+        delay = delay*1000
+        pygame.time.wait(int(delay))
