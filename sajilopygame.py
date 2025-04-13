@@ -883,4 +883,8 @@ class sajilopygame:
     # drawing a line
     def draw_line(self,start=(0,0),end=(0,0),color=(255,255,255),width=1):
         pygame.draw.line(self.screen, color, start, end, width)
-        pygame.display.flip()
+
+    # drawing a rect
+    def draw_rect(self,color=(255,255,255),xpos=50,ypos=50,width=100,height=100,border_thickness=0,border_radius=0):
+        rect = (xpos,ypos,width,height)
+        pygame.draw.rect(self.screen, color=color, rect=rect, width=border_thickness, border_radius=border_radius)

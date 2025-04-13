@@ -28,7 +28,8 @@ while True:
     # drawing a line
     game.draw_line(start=(200,0),end=(400,400),color=(255,0,0),width=5)
     game.draw_line(start=(400,400),end=(0,0),color=(0,255,0),width=1)
+    game.draw_rect(color=(255,255,0),xpos=100,ypos=100,width=100,height=250,border_thickness=3,border_radius=5)
 
 
-    game.set_fps(fps=1)
+    game.set_fps(fps=60)
     game.refresh_window()
