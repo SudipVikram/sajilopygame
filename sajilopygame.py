@@ -888,3 +888,10 @@ class sajilopygame:
     def draw_rect(self,color=(255,255,255),xpos=50,ypos=50,width=100,height=100,border_thickness=0,border_radius=0):
         rect = (xpos,ypos,width,height)
         pygame.draw.rect(self.screen, color=color, rect=rect, width=border_thickness, border_radius=border_radius)
+
+    # drawing an arc
+    def draw_arc(self,color=(255,255,255),org=(10,10),width=100,height=100,start_angle=0,stop_angle=90,border_thickness=0):
+        rect = (org[0],org[1],width,height)
+        start_angle = math.radians(start_angle) # for clockwise start_angle must be bigger than stop_angle
+        stop_angle = math.radians(stop_angle)   # for anti-clockwise start_angle must be smaller than stop_angle
+        pygame.draw.arc(self.screen, color=color, rect=rect, start_angle=start_angle, stop_angle=stop_angle, width=border_thickness)
