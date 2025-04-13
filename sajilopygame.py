@@ -874,8 +874,13 @@ class sajilopygame:
     def set_fps(self,fps=60):
         self.fps = fps
 
-    # setting a delay on the screen
+    # setting a delay on the screen(in seconds
     def delay_screen_refresh(self,delay=1):
         # turning milliseconds to seconds
         delay = delay*1000
         pygame.time.wait(int(delay))
+
+    # drawing a line
+    def draw_line(self,start=(0,0),end=(0,0),color=(255,255,255),width=1):
+        pygame.draw.line(self.screen, color, start, end, width)
+        pygame.display.flip()
