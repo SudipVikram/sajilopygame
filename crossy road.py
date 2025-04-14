@@ -37,23 +37,36 @@ for lane_start in lanes:
                              border_radius=game.random_number(0,5))
     vehicles.append(vehicle)
 
+# detecting collision
+def detect_collision(chicken, vehicle):
+    return (
+            chicken.xpos < vehicle.xpos + vehicle.width and
+            chicken.xpos + chicken.width > vehicle.xpos and
+            chicken.ypos < vehicle.ypos + vehicle.height and
+            chicken.ypos + chicken.height > vehicle.ypos
+    )
+
 while True:
     game.background_color(color=(0,0,0))
     # drawing the edges of road # green patches
     game.draw_rect(color=(0,255,0),xpos=0,ypos=0,width=game.wwidth,height=50,border_thickness=0)
     game.draw_rect(color=(0,255,0),xpos=0,ypos=game.wheight-50,width=game.wwidth,height=50,border_thickness=0)
-    # loading characters
-    chicken.load()
 
     # loading the lanes's margins
     for lane_start in lanes:
         game.draw_line(start=(0,lane_start),end=(game.wwidth,lane_start),color=(255,255,0),width=1)
+
+    # loading characters
+    chicken.load()
 
     # loading the vehicles
     for i, vehicle in enumerate(vehicles):
         if vehicle.alive:
             vehicle.load()
             vehicle.move_right(game.random_number(1,5))
+
+            if detect_collision(chicken, vehicle):
+                print("Collision detected")
 
             if vehicle.xpos > game.wwidth:
                 vehicle.kill()
