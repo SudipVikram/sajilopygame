@@ -991,7 +991,6 @@ class sajilopygame:
             self.check_vitals()
             if speed is not None:
                 self.speed = speed
-                print(speed)
 
         def update_border_thickness(self, thickness=None):
             self.check_vitals()

@@ -45,6 +45,10 @@ while True:
     # loading characters
     chicken.load()
 
+    # loading the lanes's margins
+    for lane_start in lanes:
+        game.draw_line(start=(0,lane_start),end=(game.wwidth,lane_start),color=(255,255,0),width=1)
+
     # loading the vehicles
     for i, vehicle in enumerate(vehicles):
         if vehicle.alive:
