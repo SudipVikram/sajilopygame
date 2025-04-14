@@ -16,22 +16,16 @@ game = sajilopygame(wwidth=600,wheight=500)
 game.window_title("Crossy Road")
 
 # creating characters
-chicken = game.character(parent=game,type="player",player_shape="rectangle",color=(255,0,0),org=((game.wwidth//2)-30,game.wheight-40),width=30,height=30,border_thickness=0,border_radius=0)
+chicken = game.character(parent=game,type="player",player_shape="rectangle",color=(0,255,0),org=(10,10),width=30,height=30,border_thickness=0,border_radius=0)
 
 # multiple vehicles
 vehicles = []
 
-# multiple lanes
-num_lanes = 5   # since there are 5 vehicles
-lane_height = (game.wheight - 100) // num_lanes
-lanes = [50 + i * lane_height for i in range(num_lanes)]
-# i.e., for wheight = 50, lanes = [130,210,290,370,450]
-
 # let's have 5 vehicles moving at any given time
-for lane_start in lanes:
+for i in range(5):
     vehicle = game.character(parent=game,type="object",player_shape="rectangle",
                              color=game.random_color(),
-                             org=(game.random_number(0,game.wwidth-200), game.random_number(lane_start, lane_start+30)),
+                             org=(0, game.random_number(100, game.wheight - 100)),
                              width=game.random_number(50,100),
                              height=game.random_number(10,50),border_thickness=0,
                              border_radius=game.random_number(0,5))
@@ -55,7 +49,7 @@ while True:
                 vehicle.kill()
                 vehicle = game.character(parent=game, type="object", player_shape="rectangle",
                                          color=game.random_color(),
-                                         org=(0, game.random_number(lanes[i], lanes[i]+30)),
+                                         org=(0, game.random_number(100, game.wheight-100)),
                                          width=game.random_number(50, 100),
                                          height=game.random_number(10, 50), border_thickness=0,
                                          border_radius=game.random_number(0, 5))
