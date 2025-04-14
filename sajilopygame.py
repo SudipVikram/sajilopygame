@@ -902,3 +902,102 @@ class sajilopygame:
             print("points not specified")
             return
         pygame.draw.polygon(self.screen, color=color, points=points, width=border_thickness)
+
+
+    # a new class for characters
+    class character:
+        def __init__(self, parent, type="player", player_shape="rectangle", color=(255, 0, 0), org=(0, 0), width=30,
+                     height=30, border_thickness=0, border_radius=0):
+            self.parent = parent
+            self.type = type
+            self.player_shape = player_shape
+            self.color = color
+            self.xpos, self.ypos = org
+            self.width = width
+            self.height = height
+            self.border_thickness = border_thickness
+            self.border_radius = border_radius
+
+            # initial values
+            self.speed = 1
+
+            # state of the object
+            self.alive = True
+
+        def __del__(self):
+            self.alive = False
+
+        def check_vitals(self):
+            if not self.alive:
+                raise Exception("Character is dead")
+
+        def load(self):
+            self.check_vitals()
+            if self.player_shape == "rectangle":
+                player = self.parent.draw_rect(color=self.color, xpos=self.xpos, ypos=self.ypos, width=self.width,
+                                               height=self.height, border_thickness=self.border_thickness,
+                                               border_radius=self.border_radius)
+
+        def change_position(self, xpos, ypos):
+            self.check_vitals()
+            if self.player_shape == "rectangle":
+                self.xpos = xpos
+                self.ypos = ypos
+
+        def change_shape(self, width, height):
+            self.check_vitals()
+            if self.player_shape == "rectangle":
+                self.width = width
+                self.height = height
+
+        def move_left(self):
+            self.check_vitals()
+            self.xpos -= 10
+
+        def move_right(self, speed=None):
+            self.check_vitals()
+            if speed:
+                self.speed = speed
+            self.xpos += self.speed
+
+        def find_position(self):
+            self.check_vitals()
+            return self.xpos, self.ypos
+
+        def update_position(self, xpos=None, ypos=None):
+            self.check_vitals()
+            if xpos is not None:
+                self.xpos = xpos
+            if ypos is not None:
+                self.ypos = ypos
+
+        def update_shape(self, width=None, height=None):
+            self.check_vitals()
+            if width is not None:
+                self.width = width
+            if height is not None:
+                self.height = height
+
+        def update_speed(self, speed=None):
+            self.check_vitals()
+            if speed is not None:
+                self.speed = speed
+                print(speed)
+
+        def update_border_thickness(self, thickness=None):
+            self.check_vitals()
+            if thickness is not None:
+                self.border_thickness = thickness
+
+        def update_border_radius(self, radius=None):
+            self.check_vitals()
+            if radius is not None:
+                self.border_radius = radius
+
+        def update_color(self, color=None):
+            self.check_vitals()
+            if color is not None:
+                self.color = color
+
+        def kill(self):
+            self.__del__()
