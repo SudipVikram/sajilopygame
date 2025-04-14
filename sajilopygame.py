@@ -903,6 +903,15 @@ class sajilopygame:
             return
         pygame.draw.polygon(self.screen, color=color, points=points, width=border_thickness)
 
+    # giving a random integer number
+    def random_number(self,start=0,end=10):
+        return random.randint(start,end)
+
+    # giving a random color
+    def random_color(self):
+        color = ()
+        color = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
+        return color
 
     # a new class for characters
     class character:
