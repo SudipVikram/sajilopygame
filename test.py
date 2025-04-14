@@ -1,5 +1,3 @@
-import time
-
 from sajilopygame import *
 
 game = sajilopygame(wwidth=400,wheight=400)

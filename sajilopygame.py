@@ -1,4 +1,15 @@
+"""
+This is a library by Beyond Apogee, Nepal tailored
+for the school-level students that we educate in our
+robotics program.
+@ developer: Beyond Apogee
+@ author: Sudip Vikram Adhikari
+@ version: 1.0
+@ license: MIT
+"""
+
 import math
+import os
 import time
 
 import pygame
@@ -13,6 +24,10 @@ class sajilopygame:
         # initializing pygame
         pygame.init()
         self.screen = pygame.display.set_mode((self.wwidth,self.wheight))
+
+        # initializing time
+        self.clock = pygame.time.Clock()
+        self.fps = 60
 
         # Movement states for keys
         self.left_pressed = False
@@ -68,6 +83,9 @@ class sajilopygame:
         # lives
         self.lives = 3
         self.game_over_state = False
+
+        # transformations
+        self.player_transformed = False
 
     # function to update the display window
     # also is responsible for quitting the program
@@ -176,6 +194,9 @@ class sajilopygame:
         if self.lives == 0:
             self.game_over()
 
+        # setting the fps
+        self.clock.tick(self.fps)
+
 
     # loading the window title
     def window_title(self,title):
@@ -198,33 +219,213 @@ class sajilopygame:
 
     # creating a player
     def create_player(self,image_path,org=(370,480)):
+        self.player_image_path = image_path
         self.playerx, self.playery = org
-        self.player_img = pygame.image.load(image_path)
+        self.player_img = pygame.image.load(image_path).convert_alpha()
         self.player_width, self.player_height = self.player_img.get_size()
+        self.player_rect = self.player_img.get_rect()
 
     # loading a player
     def load_player(self):
-        self.screen.blit(self.player_img,(self.playerx,self.playery))
+        if self.player_transformed:
+            return      # transformation set in
+        elif self.is_lr_mapped_to_player:
+            # checking if there are other images for each keystroke
+            pathname = os.path.dirname(self.player_image_path)
+            image_name = self.player_image_path.split("/")[-1]
+            image_name_wo_ext = image_name.split(".")[0]   # without extension
+            image_ext = image_name.split(".")[-1]
+            left_image_placeholder = pathname+'/'+image_name_wo_ext+"_left"+"."+image_ext
+            up_left_image_placeholder = pathname+'/'+image_name_wo_ext+"_up_left"+"."+image_ext
+            down_left_image_placeholder = pathname+'/'+image_name_wo_ext+"_down_left"+"."+image_ext
+            right_image_placeholder = pathname+'/'+image_name_wo_ext+"_right"+"."+image_ext
+            up_right_image_placeholder = pathname+'/'+image_name_wo_ext+"_up_right"+"."+image_ext
+            down_right_image_placeholder = pathname+'/'+image_name_wo_ext+"_down_right"+"."+image_ext
+            up_image_placeholder = pathname+'/'+image_name_wo_ext+"_up"+"."+image_ext
+            down_image_placeholder = pathname+'/'+image_name_wo_ext+"_down"+"."+image_ext
+            # checking for keystrokes
+            if self.left_pressed and self.up_pressed:
+                if os.path.exists(up_left_image_placeholder):
+                    up_left_image = pygame.image.load(up_left_image_placeholder)
+                    self.screen.blit(up_left_image,(self.playerx,self.playery))
+            elif self.left_pressed and self.down_pressed:
+                if os.path.exists(down_left_image_placeholder):
+                    down_left_image = pygame.image.load(down_left_image_placeholder)
+                    self.screen.blit(down_left_image,(self.playerx,self.playery))
+            elif self.left_pressed and not self.up_pressed and not self.down_pressed:
+                if os.path.exists(left_image_placeholder):
+                    left_image = pygame.image.load(left_image_placeholder)
+                    self.screen.blit(left_image,(self.playerx,self.playery))
+                else:
+                    self.screen.blit(self.player_img, (self.playerx, self.playery))
+            elif self.right_pressed and self.up_pressed:
+                if os.path.exists(up_right_image_placeholder):
+                    up_right_image = pygame.image.load(up_right_image_placeholder)
+                    self.screen.blit(up_right_image,(self.playerx,self.playery))
+            elif self.right_pressed and self.down_pressed:
+                if os.path.exists(down_right_image_placeholder):
+                    down_right_image = pygame.image.load(down_right_image_placeholder)
+                    self.screen.blit(down_right_image,(self.playerx,self.playery))
+            elif self.right_pressed and not self.up_pressed and not self.down_pressed:
+                if os.path.exists(right_image_placeholder):
+                    right_image = pygame.image.load(right_image_placeholder)
+                    self.screen.blit(right_image,(self.playerx,self.playery))
+                else:
+                    self.screen.blit(self.player_img, (self.playerx, self.playery))
+            elif self.up_pressed and not self.left_pressed and not self.right_pressed:
+                if os.path.exists(up_image_placeholder):
+                    up_image = pygame.image.load(up_image_placeholder)
+                    self.screen.blit(up_image,(self.playerx,self.playery))
+                else:
+                    self.screen.blit(self.player_img, (self.playerx, self.playery))
+            elif self.down_pressed and not self.left_pressed and not self.right_pressed:
+                if os.path.exists(down_image_placeholder):
+                    down_image = pygame.image.load(down_image_placeholder)
+                    self.screen.blit(down_image,(self.playerx,self.playery))
+                else:
+                    self.screen.blit(self.player_img, (self.playerx, self.playery))
+            else:
+                self.screen.blit(self.player_img, (self.playerx, self.playery))
+        else:
+            self.screen.blit(self.player_img, (self.playerx, self.playery))
 
     # creating an enemy
     def create_enemy(self,image_path,org=(370,40)):
+        self.enemy_image_path = image_path
         self.enemyx, self.enemyy = org
         self.enemy_img = pygame.image.load(image_path)
         self.enemy_width, self.enemy_height = self.enemy_img.get_size()
 
     # loading an enemy
     def load_enemy(self):
-        self.screen.blit(self.enemy_img,(self.enemyx,self.enemyy))
+        if self.is_lr_mapped_to_enemy:
+            # checking if there are other images for each keystroke
+            pathname = os.path.dirname(self.enemy_image_path)
+            image_name = self.enemy_image_path.split("/")[-1]
+            image_name_wo_ext = image_name.split(".")[0]  # without extension
+            image_ext = image_name.split(".")[-1]
+            left_image_placeholder = pathname + '/' + image_name_wo_ext + "_left" + "." + image_ext
+            up_left_image_placeholder = pathname + '/' + image_name_wo_ext + "_up_left" + "." + image_ext
+            down_left_image_placeholder = pathname + '/' + image_name_wo_ext + "_down_left" + "." + image_ext
+            right_image_placeholder = pathname + '/' + image_name_wo_ext + "_right" + "." + image_ext
+            up_right_image_placeholder = pathname + '/' + image_name_wo_ext + "_up_right" + "." + image_ext
+            down_right_image_placeholder = pathname + '/' + image_name_wo_ext + "_down_right" + "." + image_ext
+            up_image_placeholder = pathname + '/' + image_name_wo_ext + "_up" + "." + image_ext
+            down_image_placeholder = pathname + '/' + image_name_wo_ext + "_down" + "." + image_ext
+            # checking for keystrokes
+            if self.left_pressed and self.up_pressed:
+                if os.path.exists(up_left_image_placeholder):
+                    up_left_image = pygame.image.load(up_left_image_placeholder)
+                    self.screen.blit(up_left_image, (self.enemyx, self.enemyy))
+            elif self.left_pressed and self.down_pressed:
+                if os.path.exists(down_left_image_placeholder):
+                    down_left_image = pygame.image.load(down_left_image_placeholder)
+                    self.screen.blit(down_left_image, (self.enemyx, self.enemyy))
+            elif self.left_pressed and not self.up_pressed and not self.down_pressed:
+                if os.path.exists(left_image_placeholder):
+                    left_image = pygame.image.load(left_image_placeholder)
+                    self.screen.blit(left_image, (self.enemyx, self.enemyy))
+                else:
+                    self.screen.blit(self.enemy_img, (self.enemyx, self.enemyy))
+            elif self.right_pressed and self.up_pressed:
+                if os.path.exists(up_right_image_placeholder):
+                    up_right_image = pygame.image.load(up_right_image_placeholder)
+                    self.screen.blit(up_right_image, (self.enemyx, self.enemyy))
+            elif self.right_pressed and self.down_pressed:
+                if os.path.exists(down_right_image_placeholder):
+                    down_right_image = pygame.image.load(down_right_image_placeholder)
+                    self.screen.blit(down_right_image, (self.enemyx, self.enemyy))
+            elif self.right_pressed and not self.up_pressed and not self.down_pressed:
+                if os.path.exists(right_image_placeholder):
+                    right_image = pygame.image.load(right_image_placeholder)
+                    self.screen.blit(right_image, (self.enemyx, self.enemyy))
+                else:
+                    self.screen.blit(self.enemy_img, (self.enemyx, self.enemyy))
+            elif self.up_pressed and not self.left_pressed and not self.right_pressed:
+                if os.path.exists(up_image_placeholder):
+                    up_image = pygame.image.load(up_image_placeholder)
+                    self.screen.blit(up_image, (self.enemyx, self.enemyy))
+                else:
+                    self.screen.blit(self.enemy_img, (self.enemyx, self.enemyy))
+            elif self.down_pressed and not self.left_pressed and not self.right_pressed:
+                if os.path.exists(down_image_placeholder):
+                    down_image = pygame.image.load(down_image_placeholder)
+                    self.screen.blit(down_image, (self.enemyx, self.enemyy))
+                else:
+                    self.screen.blit(self.enemy_img, (self.enemyx, self.enemyy))
+            else:
+                self.screen.blit(self.enemy_img, (self.enemyx, self.enemyy))
+        else:
+            self.screen.blit(self.enemy_img, (self.enemyx, self.enemyy))
 
     # creating an object
     def create_object(self,image_path,org=(370,240)):
+        self.object_image_path = image_path
         self.objectx, self.objecty = org
         self.object_img = pygame.image.load(image_path)
         self.object_width, self.object_height = self.object_img.get_size()
 
     # loading an object
     def load_object(self):
-        self.screen.blit(self.object_img,(self.objectx,self.objecty))
+        if self.is_lr_mapped_to_object:
+            # checking if there are other images for each keystroke
+            pathname = os.path.dirname(self.object_image_path)
+            image_name = self.object_image_path.split("/")[-1]
+            image_name_wo_ext = image_name.split(".")[0]  # without extension
+            image_ext = image_name.split(".")[-1]
+            left_image_placeholder = pathname + '/' + image_name_wo_ext + "_left" + "." + image_ext
+            up_left_image_placeholder = pathname + '/' + image_name_wo_ext + "_up_left" + "." + image_ext
+            down_left_image_placeholder = pathname + '/' + image_name_wo_ext + "_down_left" + "." + image_ext
+            right_image_placeholder = pathname + '/' + image_name_wo_ext + "_right" + "." + image_ext
+            up_right_image_placeholder = pathname + '/' + image_name_wo_ext + "_up_right" + "." + image_ext
+            down_right_image_placeholder = pathname + '/' + image_name_wo_ext + "_down_right" + "." + image_ext
+            up_image_placeholder = pathname + '/' + image_name_wo_ext + "_up" + "." + image_ext
+            down_image_placeholder = pathname + '/' + image_name_wo_ext + "_down" + "." + image_ext
+            # checking for keystrokes
+            if self.left_pressed and self.up_pressed:
+                if os.path.exists(up_left_image_placeholder):
+                    up_left_image = pygame.image.load(up_left_image_placeholder)
+                    self.screen.blit(up_left_image, (self.objectx, self.objecty))
+            elif self.left_pressed and self.down_pressed:
+                if os.path.exists(down_left_image_placeholder):
+                    down_left_image = pygame.image.load(down_left_image_placeholder)
+                    self.screen.blit(down_left_image, (self.objectx, self.objecty))
+            elif self.left_pressed and not self.up_pressed and not self.down_pressed:
+                if os.path.exists(left_image_placeholder):
+                    left_image = pygame.image.load(left_image_placeholder)
+                    self.screen.blit(left_image, (self.objectx, self.objecty))
+                else:
+                    self.screen.blit(self.object_img, (self.objectx, self.objecty))
+            elif self.right_pressed and self.up_pressed:
+                if os.path.exists(up_right_image_placeholder):
+                    up_right_image = pygame.image.load(up_right_image_placeholder)
+                    self.screen.blit(up_right_image, (self.objectx, self.objecty))
+            elif self.right_pressed and self.down_pressed:
+                if os.path.exists(down_right_image_placeholder):
+                    down_right_image = pygame.image.load(down_right_image_placeholder)
+                    self.screen.blit(down_right_image, (self.objectx, self.objecty))
+            elif self.right_pressed and not self.up_pressed and not self.down_pressed:
+                if os.path.exists(right_image_placeholder):
+                    right_image = pygame.image.load(right_image_placeholder)
+                    self.screen.blit(right_image, (self.objectx, self.objecty))
+                else:
+                    self.screen.blit(self.object_img, (self.objectx, self.objecty))
+            elif self.up_pressed and not self.left_pressed and not self.right_pressed:
+                if os.path.exists(up_image_placeholder):
+                    up_image = pygame.image.load(up_image_placeholder)
+                    self.screen.blit(up_image, (self.objectx, self.objecty))
+                else:
+                    self.screen.blit(self.object_img, (self.objectx, self.objecty))
+            elif self.down_pressed and not self.left_pressed and not self.right_pressed:
+                if os.path.exists(down_image_placeholder):
+                    down_image = pygame.image.load(down_image_placeholder)
+                    self.screen.blit(down_image, (self.objectx, self.objecty))
+                else:
+                    self.screen.blit(self.object_img, (self.objectx, self.objecty))
+            else:
+                self.screen.blit(self.object_img, (self.objectx, self.objecty))
+        else:
+            self.screen.blit(self.object_img, (self.objectx, self.objecty))
 
     # assign Left, Right keystrokes
     def assign_lr_keys(self,type="player",intensity=(1,1)):
@@ -355,7 +556,7 @@ class sajilopygame:
                 self.last_detected_edge_player = "right"
             if self.playery == 0:
                 self.last_detected_edge_player = "top"
-            if self.playery == self.wheight-self.enemy_height:
+            if self.playery == self.wheight-self.player_height:
                 self.last_detected_edge_player = "bottom"
         if type == "enemy":
             if self.enemyx == 0:
@@ -393,6 +594,17 @@ class sajilopygame:
             self.move_right_to_left(type=type, speed=speed)
         else:
             self.move_left_to_right(type=type, speed=speed)
+
+    # bouncing up and down
+    def bounce_up_down(self,type="enemy",speed=1):
+        edge = self.detect_edge(type=type)
+
+        if edge == "top":
+            self.move_top_to_bottom(type=type, speed=speed)
+        elif edge == "bottom":
+            self.move_bottom_to_top(type=type, speed=speed)
+        else:
+            self.move_top_to_bottom(type=type, speed=speed)
 
     # bouncing top and bottom
     def bounce_top_bottom(self,type="enemy",speed=1):
@@ -507,9 +719,9 @@ class sajilopygame:
 
     # assign collision limits
     def limit_randomness(self,type="enemy",xlimit=(0,0),ylimit=(0,0)):
-        self.random_ximit = xlimit
+        self.random_xlimit = xlimit
         self.random_ylimit = ylimit
-        lower_xlimit, upper_xlimit = self.random_ximit
+        lower_xlimit, upper_xlimit = self.random_xlimit
         upper_ylimit, lower_ylimit = self.random_ylimit
         xpos, ypos = self.find_position(type=type)
         if lower_xlimit <= xpos <= upper_xlimit or lower_ylimit <= ypos <= upper_ylimit:
@@ -629,3 +841,64 @@ class sajilopygame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.game_over_state = False  # Exit the pause loop without quitting the application
+
+    # tranformations
+    def transform(self,type="player",style="flip_horizontally",angle=None,factor=None):
+        transformed_img = None  # setting local variable
+        if type == "player":
+            if style == "flip_horizontally":
+                transformed_img = pygame.transform.flip(self.player_img, True, False)
+                self.player_transformed = True
+            elif style == "flip_vertically":
+                transformed_img = pygame.transform.flip(self.player_img, False, True)
+                self.player_transformed = True
+            elif style == "rotate":
+                if angle is None:
+                    print("angle not specified")
+                    return
+                transformed_img = pygame.transform.rotate(self.player_img, angle)
+                self.player_transformed = True
+            elif style == "scale":
+                if factor is None:
+                    print("scaling factor not specified")
+                    return
+                new_width = int(self.player_img.get_width() * factor)
+                new_height = int(self.player_img.get_height() * factor)
+                transformed_img = pygame.transform.smoothscale(self.player_img, (new_width, new_height))
+            else:
+                print("incorrect style option")
+        self.screen.blit(transformed_img, (self.playerx, self.playery))
+        pygame.display.flip()
+
+    # setting the fps of the screen
+    def set_fps(self,fps=60):
+        self.fps = fps
+
+    # setting a delay on the screen(in seconds
+    def delay_screen_refresh(self,delay=1):
+        # turning milliseconds to seconds
+        delay = delay*1000
+        pygame.time.wait(int(delay))
+
+    # drawing a line
+    def draw_line(self,start=(0,0),end=(0,0),color=(255,255,255),width=1):
+        pygame.draw.line(self.screen, color, start, end, width)
+
+    # drawing a rect
+    def draw_rect(self,color=(255,255,255),xpos=50,ypos=50,width=100,height=100,border_thickness=0,border_radius=0):
+        rect = (xpos,ypos,width,height)
+        pygame.draw.rect(self.screen, color=color, rect=rect, width=border_thickness, border_radius=border_radius)
+
+    # drawing an arc
+    def draw_arc(self,color=(255,255,255),org=(10,10),width=100,height=100,start_angle=0,stop_angle=90,border_thickness=0):
+        rect = (org[0],org[1],width,height)
+        start_angle = math.radians(start_angle) # for clockwise start_angle must be bigger than stop_angle
+        stop_angle = math.radians(stop_angle)   # for anti-clockwise start_angle must be smaller than stop_angle
+        pygame.draw.arc(self.screen, color=color, rect=rect, start_angle=start_angle, stop_angle=stop_angle, width=border_thickness)
+
+    # drawing a polygon
+    def draw_polygon(self,color=(255,255,255),points=None,border_thickness=0):
+        if points is None:
+            print("points not specified")
+            return
+        pygame.draw.polygon(self.screen, color=color, points=points, width=border_thickness)
