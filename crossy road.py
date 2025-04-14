@@ -46,6 +46,18 @@ def detect_collision(chicken, vehicle):
             chicken.ypos + chicken.height > vehicle.ypos
     )
 
+# score card
+score = 0
+
+# checking for lane crossed
+def lane_crossed(chicken):
+    global score
+    for i, lane_y in enumerate(lanes):
+        if lane_y > chicken.ypos:
+            score = i
+            break
+    return 4-score+1
+
 while True:
     game.background_color(color=(0,0,0))
     # drawing the edges of road # green patches
@@ -88,6 +100,9 @@ while True:
         chicken.update_position(xpos=chicken.xpos, ypos=chicken.ypos - 1)
     if game.down_pressed:
         chicken.update_position(xpos=chicken.xpos, ypos=chicken.ypos + 1)
+
+    scorecard = lane_crossed(chicken)
+    print(scorecard)
 
     # setting frames per second
     game.set_fps(60)
