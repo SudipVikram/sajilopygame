@@ -62,6 +62,16 @@ while True:
                 vehicle.update_speed(speed=game.random_number(1, 5))
                 vehicles[i] = vehicle
 
+    # updating the position of the chicken from key presses
+    if game.left_pressed:
+        chicken.update_position(xpos=chicken.xpos - 1, ypos=chicken.ypos)
+    if game.right_pressed:
+        chicken.update_position(xpos=chicken.xpos + 1, ypos=chicken.ypos)
+    if game.up_pressed:
+        chicken.update_position(xpos=chicken.xpos, ypos=chicken.ypos - 1)
+    if game.down_pressed:
+        chicken.update_position(xpos=chicken.xpos, ypos=chicken.ypos + 1)
+
     # setting frames per second
     game.set_fps(60)
     # refreshing window
