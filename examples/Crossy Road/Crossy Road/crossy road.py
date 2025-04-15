@@ -52,6 +52,11 @@ def lane_crossed(chicken):
             score = i
             return 4-score+1
 
+# working with sounds
+game.load_sound(sound_path="assets/road.mp3", type="background", volume=0.5)
+#game.load_sound(sound_path="assets/collision.mp3", type="death", volume=0.5)
+#game.load_sound(sound_path="assets/victory.mp3", type="win", volume=0.5)
+
 while True:
     game.background_color(color=(0,0,0))
     # drawing the edges of road # green patches
