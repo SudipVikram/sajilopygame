@@ -78,8 +78,9 @@ while True:
             vehicle.load()
             vehicle.move_right(game.random_number(1,5))
 
+            # check for collisions, if collision kill the chicken, go to game over logic
             if detect_collision(chicken, vehicle):
-                print("Collision detected")
+                chicken.kill()
 
             if vehicle.xpos > game.wwidth:
                 vehicle.kill()
@@ -91,6 +92,10 @@ while True:
                                          border_radius=game.random_number(0, 5))
                 vehicle.update_speed(speed=game.random_number(1, 5))
                 vehicles[i] = vehicle
+
+    # checking for road kill
+    if not chicken.alive:
+        game.game_over(font_size=50)
 
     # updating the position of the chicken from key presses
     if game.left_pressed:
@@ -107,6 +112,9 @@ while True:
     if not scorecard:
         scorecard = 0
     game.draw_text(text=f"Score: {scorecard}",xpos=10,ypos=10,color=(255,255,255),font_size=20)
+
+    if scorecard == 5 and chicken.ypos < 10:
+        game.you_won(font_size=50,color=(0,255,0))
 
     # setting frames per second
     game.set_fps(60)

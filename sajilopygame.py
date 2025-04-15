@@ -824,12 +824,31 @@ class sajilopygame:
         self.screen.blit(life_text, life_rect)
 
     # game over
-    def game_over(self):
+    def game_over(self,text="GAME OVER",font="comicsansms",font_size=100,color=(255,0,0)):
         print("GAME OVER")
-        gameover_font = pygame.font.SysFont("comicsansms", 100)
-        gameover_text = gameover_font.render("GAME OVER ", True, (255, 0, 0))
+        gameover_font = pygame.font.SysFont(font,font_size)
+        gameover_text = gameover_font.render(text, True, color)
         gameover_rect = gameover_text.get_rect()
         gameover_rect.center = (self.wwidth/2, self.wheight/2)
+        self.screen.blit(gameover_text, gameover_rect)
+        pygame.mixer.music.stop()
+        pygame.mixer.stop()
+        # Update the display after rendering
+        pygame.display.update()
+        # killing the program
+        self.game_over_state = True
+        while self.game_over_state:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.game_over_state = False  # Exit the pause loop without quitting the application
+
+    # game over
+    def you_won(self, text="You Won!", font="comicsansms", font_size=100, color=(255, 0, 0)):
+        print("You Won!")
+        gameover_font = pygame.font.SysFont(font, font_size)
+        gameover_text = gameover_font.render(text, True, color)
+        gameover_rect = gameover_text.get_rect()
+        gameover_rect.center = (self.wwidth / 2, self.wheight / 2)
         self.screen.blit(gameover_text, gameover_rect)
         pygame.mixer.music.stop()
         pygame.mixer.stop()
