@@ -37,8 +37,7 @@ for lane_start in lanes:
     vehicle = game.character(parent=game,type="image",image_path="assets/"+vehicle_img_path[game.random_number(0,len(vehicle_img_path)-1)],
                              color=game.random_color(),
                              org=(game.random_number(0,game.wwidth-200), game.random_number(lane_start, lane_start+30)),
-                             width=game.random_number(50,100),
-                             height=game.random_number(10,50),border_thickness=0,
+                             width=32, height=32,border_thickness=0,
                              border_radius=game.random_number(0,5))
     vehicles.append(vehicle)
 
@@ -79,11 +78,10 @@ while True:
             # once the vehicle travels outside of the screen, we kill it off and assign a new object in its place
             if vehicle.xpos > game.wwidth:
                 vehicle.kill()
-                vehicle = game.character(parent=game, type="shape", character_shape="rectangle",
+                vehicle = game.character(parent=game, type="image",image_path="assets/"+vehicle_img_path[game.random_number(0,len(vehicle_img_path)-1)],
                                          color=game.random_color(),
                                          org=(0, game.random_number(lanes[i], lanes[i]+30)),
-                                         width=game.random_number(50, 100),
-                                         height=game.random_number(10, 50), border_thickness=0,
+                                         width=32, height=32, border_thickness=0,
                                          border_radius=game.random_number(0, 5))
                 vehicle.update_speed(speed=game.random_number(1, 5))
                 vehicles[i] = vehicle
@@ -102,7 +100,7 @@ while True:
     if game.down_pressed:
         chicken.update_position(xpos=chicken.xpos, ypos=chicken.ypos + 1)
 
-    '''# managing scores in the scoreboard
+    # managing scores in the scoreboard
     scorecard = lane_crossed(chicken)
     if not scorecard:
         scorecard = 0
@@ -113,7 +111,7 @@ while True:
         game.you_won(font_size=50,color=(0,255,0))
 
     # bounding the chicken to the window
-    game.bound_character_to_window(chicken)'''
+    game.bound_character_to_window(chicken)
 
     # setting frames per second
     game.set_fps(60)
