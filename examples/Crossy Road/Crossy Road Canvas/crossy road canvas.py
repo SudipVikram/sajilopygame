@@ -73,6 +73,7 @@ while True:
             if game.detect_character_collision(chicken,vehicle):
                 chicken.kill()
 
+            # once the vehicle travels outside of the screen, we kill it off and assign a new object in its place
             if vehicle.xpos > game.wwidth:
                 vehicle.kill()
                 vehicle = game.character(parent=game, type="object", player_shape="rectangle",
@@ -104,10 +105,11 @@ while True:
         scorecard = 0
     game.draw_text(text=f"Score: {scorecard}",xpos=10,ypos=10,color=(255,255,255),font_size=20)
 
+    # checking for your win # you must cross all 5 lanes
     if scorecard == 5 and chicken.ypos < 10:
         game.you_won(font_size=50,color=(0,255,0))
 
     # setting frames per second
-    game.set_fps(60)
+    game.set_fps(30)
     # refreshing window
     game.refresh_window()
