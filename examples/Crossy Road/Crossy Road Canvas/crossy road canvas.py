@@ -53,8 +53,8 @@ def lane_crossed(chicken):
 while True:
     game.background_color(color=(0,0,0))
     # drawing the edges of road # green patches
-    game.draw_rect(color=(0,255,0),xpos=0,ypos=0,width=game.wwidth,height=50,border_thickness=0)
-    game.draw_rect(color=(0,255,0),xpos=0,ypos=game.wheight-50,width=game.wwidth,height=50,border_thickness=0)
+    game.draw_rect(color=(0,255,0),org=(0,0),width=game.wwidth,height=50,border_thickness=0)
+    game.draw_rect(color=(0,255,0),org=(0,game.wheight-50),width=game.wwidth,height=50,border_thickness=0)
 
     # loading the lanes's margins
     for lane_start in lanes:
