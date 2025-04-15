@@ -930,7 +930,8 @@ class sajilopygame:
         pygame.draw.line(self.screen, color, start, end, width)
 
     # drawing a rect
-    def draw_rect(self,color=(255,255,255),xpos=50,ypos=50,width=100,height=100,border_thickness=0,border_radius=0):
+    def draw_rect(self,color=(255,255,255),org=(50,50),width=100,height=100,border_thickness=0,border_radius=0):
+        xpos, ypos = org
         rect = (xpos,ypos,width,height)
         pygame.draw.rect(self.screen, color=color, rect=rect, width=border_thickness, border_radius=border_radius)
 
@@ -1005,7 +1006,7 @@ class sajilopygame:
                 self.parent.screen.blit(self.image,(self.xpos,self.ypos))
             elif self.type == "shape":
                 if self.character_shape == "rectangle":
-                    player = self.parent.draw_rect(color=self.color, xpos=self.xpos, ypos=self.ypos, width=self.width,
+                    player = self.parent.draw_rect(color=self.color, org=(self.xpos, self.ypos), width=self.width,
                                                    height=self.height, border_thickness=self.border_thickness,
                                                    border_radius=self.border_radius)
 

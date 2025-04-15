@@ -19,13 +19,17 @@ player_car = game.character(parent=game,type="shape",character_shape="rectangle"
 
 # manually creating two cars side by side
 left_side_car = game.character(parent=game,type="shape",character_shape="rectangle",
-                               color=(255,0,0),org=(100,350),width=30,height=60)
+                               color=(255,0,0),org=(130,350),width=30,height=60)
 right_side_car = game.character(parent=game,type="shape",character_shape="rectangle",
-                                color=(0,0,255),org=(200,350),width=30,height=60)
+                                color=(0,0,255),org=(250,350),width=30,height=60)
 
 while True:
     game.background_color((0,0,0))
+    game.draw_rect(color=(255,255,0),org=(0,0),width=100,height=500)
     # loading the player car
     player_car.load()
+
+    left_side_car.load()
+    right_side_car.load()
 
     game.refresh_window()
