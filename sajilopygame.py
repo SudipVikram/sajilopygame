@@ -511,6 +511,17 @@ class sajilopygame:
             elif self.objecty > self.wheight - self.object_height:
                 self.objecty = self.wheight - self.object_height
 
+    # bounding a character to the window
+    def bound_character_to_window(self,obj):
+        if obj.ypos < 0:
+            obj.ypos = 0
+        if obj.ypos > self.wheight - obj.height:
+            obj.ypos = self.wheight - obj.height
+        if obj.xpos < 0:
+            obj.xpos = 0
+        if obj.xpos > self.wwidth - obj.width:
+            obj.xpos = self.wwidth - obj.width
+
     # move from left to right
     def move_left_to_right(self,type="enemy",speed=1):
         if type == "enemy":

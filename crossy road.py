@@ -113,8 +113,12 @@ while True:
         scorecard = 0
     game.draw_text(text=f"Score: {scorecard}",xpos=10,ypos=10,color=(255,255,255),font_size=20)
 
+    # winning conditions
     if scorecard == 5 and chicken.ypos < 10:
         game.you_won(font_size=50,color=(0,255,0))
+
+    # bounding the characters conditions
+    game.bound_character_to_window(obj=chicken)
 
     # setting frames per second
     game.set_fps(60)
