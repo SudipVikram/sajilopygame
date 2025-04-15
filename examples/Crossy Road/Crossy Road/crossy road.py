@@ -109,7 +109,10 @@ while True:
     if scorecard == 5 and chicken.ypos < 10:
         game.you_won(font_size=50,color=(0,255,0))
 
+    # bounding the chicken to the window
+    game.bound_character_to_window(chicken)
+
     # setting frames per second
-    game.set_fps(30)
+    game.set_fps(60)
     # refreshing window
     game.refresh_window()
