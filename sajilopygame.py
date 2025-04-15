@@ -962,11 +962,14 @@ class sajilopygame:
 
     # a new class for characters
     class character:
-        def __init__(self, parent, type="player", player_shape="rectangle", color=(255, 0, 0), org=(0, 0), width=30,
+        def __init__(self, parent, type="shape", image_path="image_path", character_shape="rectangle", color=(255, 0, 0), org=(0, 0), width=30,
                      height=30, border_thickness=0, border_radius=0):
             self.parent = parent
             self.type = type
-            self.player_shape = player_shape
+            self.image_path = image_path
+            self.image = None
+            self.image_rect = None
+            self.character_shape = character_shape
             self.color = color
             self.xpos, self.ypos = org
             self.width = width
@@ -989,20 +992,27 @@ class sajilopygame:
 
         def load(self):
             self.check_vitals()
-            if self.player_shape == "rectangle":
-                player = self.parent.draw_rect(color=self.color, xpos=self.xpos, ypos=self.ypos, width=self.width,
-                                               height=self.height, border_thickness=self.border_thickness,
-                                               border_radius=self.border_radius)
+            if self.type == "image":
+                self.image = pygame.image.load(self.image_path)
+                self.image_rect = self.image.get_rect()
+                self.parent.screen.blit(self.image,(self.xpos,self.ypos))
+            elif self.type == "shape":
+                if self.character_shape == "rectangle":
+                    player = self.parent.draw_rect(color=self.color, xpos=self.xpos, ypos=self.ypos, width=self.width,
+                                                   height=self.height, border_thickness=self.border_thickness,
+                                                   border_radius=self.border_radius)
 
         def change_position(self, xpos, ypos):
             self.check_vitals()
-            if self.player_shape == "rectangle":
+            if self.type == "image":
+                self.image_rect.xpos, self.image_rect.ypos = xpos,ypos
+            if self.character_shape == "rectangle":
                 self.xpos = xpos
                 self.ypos = ypos
 
         def change_shape(self, width, height):
             self.check_vitals()
-            if self.player_shape == "rectangle":
+            if self.character_shape == "rectangle":
                 self.width = width
                 self.height = height
 
@@ -1022,10 +1032,14 @@ class sajilopygame:
 
         def update_position(self, xpos=None, ypos=None):
             self.check_vitals()
-            if xpos is not None:
-                self.xpos = xpos
-            if ypos is not None:
-                self.ypos = ypos
+            if self.type == "image":
+                self.xpos, self.ypos = xpos,ypos
+            if self.type == "shape":
+                if self.character_shape == "rectangle":
+                    if xpos is not None:
+                        self.xpos = xpos
+                    if ypos is not None:
+                        self.ypos = ypos
 
         def update_shape(self, width=None, height=None):
             self.check_vitals()

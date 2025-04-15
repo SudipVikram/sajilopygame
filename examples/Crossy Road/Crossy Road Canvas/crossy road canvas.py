@@ -16,7 +16,7 @@ game = sajilopygame(wwidth=600,wheight=500)
 game.window_title("Crossy Road")
 
 # creating characters
-chicken = game.character(parent=game,type="player",player_shape="rectangle",
+chicken = game.character(parent=game,type="shape",character_shape="rectangle",
                          color=(255,0,0),org=((game.wwidth//2)-30,game.wheight-40),
                          width=30,height=30,border_thickness=0,border_radius=0)
 
@@ -31,7 +31,7 @@ lanes = [50 + i * lane_height for i in range(num_lanes)]
 
 # let's have 5 vehicles moving at any given time
 for lane_start in lanes:
-    vehicle = game.character(parent=game,type="object",player_shape="rectangle",
+    vehicle = game.character(parent=game,type="shape",character_shape="rectangle",
                              color=game.random_color(),
                              org=(game.random_number(0,game.wwidth-200), game.random_number(lane_start, lane_start+30)),
                              width=game.random_number(50,100),
@@ -76,7 +76,7 @@ while True:
             # once the vehicle travels outside of the screen, we kill it off and assign a new object in its place
             if vehicle.xpos > game.wwidth:
                 vehicle.kill()
-                vehicle = game.character(parent=game, type="object", player_shape="rectangle",
+                vehicle = game.character(parent=game, type="shape", character_shape="rectangle",
                                          color=game.random_color(),
                                          org=(0, game.random_number(lanes[i], lanes[i]+30)),
                                          width=game.random_number(50, 100),

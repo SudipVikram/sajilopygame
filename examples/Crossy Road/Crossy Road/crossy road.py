@@ -16,13 +16,16 @@ game = sajilopygame(wwidth=600,wheight=500)
 game.window_title("Crossy Road")
 
 # creating characters
-chicken = game.character(parent=game,type="player",player_shape="rectangle",
-                         color=(255,0,0),org=((game.wwidth//2)-30,game.wheight-40),
-                         width=30,height=30,border_thickness=0,border_radius=0)
+chicken = game.character(parent=game,type="image",image_path="assets/chicken.png",
+                         color=(255,0,0),org=((game.wwidth//2)-32,game.wheight-40),
+                         width=32,height=32)
 
 # multiple vehicles
 vehicles = []
 
+# vehicle's image path list
+vehicle_img_path = ["black_car.png","yellow_car.png","duck.png","motocross.png","police.png","scooter.png",
+                    "spaceship.png","truck.png","ufo.png"]
 # multiple lanes
 num_lanes = 5   # since there are 5 vehicles
 lane_height = (game.wheight - 100) // num_lanes
@@ -31,7 +34,7 @@ lanes = [50 + i * lane_height for i in range(num_lanes)]
 
 # let's have 5 vehicles moving at any given time
 for lane_start in lanes:
-    vehicle = game.character(parent=game,type="object",player_shape="rectangle",
+    vehicle = game.character(parent=game,type="image",image_path="assets/"+vehicle_img_path[game.random_number(0,len(vehicle_img_path)-1)],
                              color=game.random_color(),
                              org=(game.random_number(0,game.wwidth-200), game.random_number(lane_start, lane_start+30)),
                              width=game.random_number(50,100),
@@ -76,7 +79,7 @@ while True:
             # once the vehicle travels outside of the screen, we kill it off and assign a new object in its place
             if vehicle.xpos > game.wwidth:
                 vehicle.kill()
-                vehicle = game.character(parent=game, type="object", player_shape="rectangle",
+                vehicle = game.character(parent=game, type="shape", character_shape="rectangle",
                                          color=game.random_color(),
                                          org=(0, game.random_number(lanes[i], lanes[i]+30)),
                                          width=game.random_number(50, 100),
@@ -99,7 +102,7 @@ while True:
     if game.down_pressed:
         chicken.update_position(xpos=chicken.xpos, ypos=chicken.ypos + 1)
 
-    # managing scores in the scoreboard
+    '''# managing scores in the scoreboard
     scorecard = lane_crossed(chicken)
     if not scorecard:
         scorecard = 0
@@ -110,7 +113,7 @@ while True:
         game.you_won(font_size=50,color=(0,255,0))
 
     # bounding the chicken to the window
-    game.bound_character_to_window(chicken)
+    game.bound_character_to_window(chicken)'''
 
     # setting frames per second
     game.set_fps(60)
