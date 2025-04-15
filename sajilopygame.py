@@ -79,6 +79,9 @@ class sajilopygame:
         self.death_sound_path = None
         self.death_sound_volume = 0.5
         self.death_sound_activated = False
+        self.victory_sound_path = None
+        self.victory_sound_volume = 0.5
+        self.victory_sound_activated = False
 
         # lives
         self.lives = 3
@@ -807,6 +810,10 @@ class sajilopygame:
             self.death_sound_path = pygame.mixer.Sound(sound_path)
             self.death_sound_volume = volume
             self.death_sound_activated = True
+        if type == "victory":
+            self.victory_sound_path = pygame.mixer.Sound(sound_path)
+            self.victory_sound_volume = volume
+            self.victory_sound_activated = True
 
     # update max lives
     def update_max_lives(self,max_lives=3):
