@@ -951,6 +951,15 @@ class sajilopygame:
         color = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
         return color
 
+    # detecting collision between two characters
+    def detect_character_collision(self,obj1, obj2):
+        return (
+                obj1.xpos < obj2.xpos + obj2.width and
+                obj1.xpos + obj1.width > obj2.xpos and
+                obj1.ypos < obj2.ypos + obj2.height and
+                obj1.ypos + obj1.height > obj2.ypos
+        )
+
     # a new class for characters
     class character:
         def __init__(self, parent, type="player", player_shape="rectangle", color=(255, 0, 0), org=(0, 0), width=30,
