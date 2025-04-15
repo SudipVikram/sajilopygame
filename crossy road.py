@@ -39,15 +39,6 @@ for lane_start in lanes:
                              border_radius=game.random_number(0,5))
     vehicles.append(vehicle)
 
-# detecting collision
-def detect_collision(chicken, vehicle):
-    return (
-            chicken.xpos < vehicle.xpos + vehicle.width and
-            chicken.xpos + chicken.width > vehicle.xpos and
-            chicken.ypos < vehicle.ypos + vehicle.height and
-            chicken.ypos + chicken.height > vehicle.ypos
-    )
-
 # score card
 score = 0
 
@@ -79,7 +70,7 @@ while True:
             vehicle.move_right(game.random_number(1,5))
 
             # check for collisions, if collision kill the chicken, go to game over logic
-            if detect_collision(chicken, vehicle):
+            if game.detect_character_collision(chicken,vehicle):
                 chicken.kill()
 
             if vehicle.xpos > game.wwidth:
