@@ -16,7 +16,9 @@ game = sajilopygame(wwidth=600,wheight=500)
 game.window_title("Crossy Road")
 
 # creating characters
-chicken = game.character(parent=game,type="player",player_shape="rectangle",color=(255,0,0),org=((game.wwidth//2)-30,game.wheight-40),width=30,height=30,border_thickness=0,border_radius=0)
+chicken = game.character(parent=game,type="player",player_shape="rectangle",
+                         color=(255,0,0),org=((game.wwidth//2)-30,game.wheight-40),
+                         width=30,height=30,border_thickness=0,border_radius=0)
 
 # multiple vehicles
 vehicles = []
@@ -55,8 +57,7 @@ def lane_crossed(chicken):
     for i, lane_y in enumerate(lanes):
         if lane_y > chicken.ypos:
             score = i
-            break
-    return 4-score+1
+            return 4-score+1
 
 while True:
     game.background_color(color=(0,0,0))
@@ -101,8 +102,11 @@ while True:
     if game.down_pressed:
         chicken.update_position(xpos=chicken.xpos, ypos=chicken.ypos + 1)
 
+    # managing scores in the scoreboard
     scorecard = lane_crossed(chicken)
-    print(scorecard)
+    if not scorecard:
+        scorecard = 0
+    game.draw_text(text=f"Score: {scorecard}",xpos=10,ypos=10,color=(255,255,255),font_size=20)
 
     # setting frames per second
     game.set_fps(60)

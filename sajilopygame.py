@@ -842,6 +842,14 @@ class sajilopygame:
                 if event.type == pygame.QUIT:
                     self.game_over_state = False  # Exit the pause loop without quitting the application
 
+    # drawing text
+    def draw_text(self,text="your text here",font="comicsansms",font_size=20,color=(255,255,255),xpos=0,ypos=0):
+        font = pygame.font.SysFont(font, font_size)
+        text = font.render(text, True, color)
+        text_rect = text.get_rect()
+        text_rect.topleft = (xpos, ypos)
+        self.screen.blit(text, text_rect)
+
     # tranformations
     def transform(self,type="player",style="flip_horizontally",angle=None,factor=None):
         transformed_img = None  # setting local variable
