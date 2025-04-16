@@ -152,8 +152,17 @@ while True:
     if right_lane_car_passed and player_car.ypos > right_lane_car.ypos+60:
         right_lane_car_passed = False
 
+    # getting the highest score and saving the current score if it is higher
+    highest_score = game.load_highest_score()
+    if score > highest_score:
+        game.save_highest_score(score)
+
+
     # drawing the score on to the score board
     game.draw_text(text=f"Score: {score}",xpos=10,ypos=10,color=(0,0,0),font_size=15)
+    game.draw_text(text="Highest",xpos=325,ypos=10,color=(0,0,0),font_size=15)
+    game.draw_text(text=f"Score: {highest_score}",xpos=325,ypos=25,color=(0,0,0),font_size=15)
+
 
     # setting fps
     game.set_fps(60)
