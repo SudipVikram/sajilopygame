@@ -90,6 +90,9 @@ class sajilopygame:
         # transformations
         self.player_transformed = False
 
+        # files
+        self.HIGH_SCORE_FILE = "high_score.txt"
+
     # function to update the display window
     # also is responsible for quitting the program
     def refresh_window(self):
@@ -967,6 +970,18 @@ class sajilopygame:
                 obj1.ypos < obj2.ypos + obj2.height and
                 obj1.ypos + obj1.height > obj2.ypos
         )
+
+    # saving highest score
+    def save_highest_score(self,score=0):
+        with open(self.HIGH_SCORE_FILE,"w") as file:
+            file.write(str(score))
+
+    # loading highest score
+    def load_highest_score(self):
+        if os.path.exists(self.HIGH_SCORE_FILE):
+            with open(self.HIGH_SCORE_FILE,"r") as file:
+                return int(file.read())
+        return 0 # if the file doesn't exist
 
     # a new class for characters
     class character:
