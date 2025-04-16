@@ -1,6 +1,7 @@
 '''
 @author: Sudip Vikram Adhikari
 @company: Beyond Apogee
+NOTE: This is a game canvas for a more decorated racing car game.
 This is the classic car race game, where you are the driver trying to move out of the way of
 incoming cars. Every car you avoid gains you a score.
 '''
