@@ -33,7 +33,16 @@ key_pressed = False
 # for speed
 speed = 1
 
+# score keeping
+score = 0
+
+# flags for car passes, so that we add just one score to one car pass
+left_lane_car_passed = False
+center_lane_car_passed = False
+right_lane_car_passed = False
+
 while True:
+    # setting background color to black
     game.background_color((0,0,0))
     # drawing the grass at both sides of the roads
     game.draw_rect(color=(0,255,0),org=(0,0),width=80,height=500)
@@ -115,6 +124,36 @@ while True:
     offset += 2+speed # we can change the speed of the dashes by changing this value
     if offset >= 40: # reset the offset
         offset = 0
+
+    # collision detection
+    if game.detect_character_collision(player_car,left_lane_car):
+        game.game_over(font_size=20)
+    elif game.detect_character_collision(player_car,center_lane_car):
+        game.game_over(font_size=20)
+    elif game.detect_character_collision(player_car,right_lane_car):
+        game.game_over(font_size=20)
+
+    # score keeping
+    if not left_lane_car_passed and player_car.ypos < left_lane_car.ypos+60:
+        score += 1
+        left_lane_car_passed = True
+    if not center_lane_car_passed and player_car.ypos < center_lane_car.ypos+60:
+        score += 1
+        center_lane_car_passed = True
+    if not right_lane_car_passed and player_car.ypos < right_lane_car.ypos+60:
+        score += 1
+        right_lane_car_passed = True
+
+    # resetting the values back to the original flag once the car has passed
+    if left_lane_car_passed and player_car.ypos > left_lane_car.ypos+60:
+        left_lane_car_passed = False
+    if center_lane_car_passed and player_car.ypos > center_lane_car.ypos+60:
+        center_lane_car_passed = False
+    if right_lane_car_passed and player_car.ypos > right_lane_car.ypos+60:
+        right_lane_car_passed = False
+
+    # drawing the score on to the score board
+    game.draw_text(text=f"Score: {score}",xpos=10,ypos=10,color=(0,0,0),font_size=15)
 
     # setting fps
     game.set_fps(60)
