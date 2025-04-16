@@ -27,6 +27,12 @@ right_lane_car = game.character(parent=game,type="shape",character_shape="rectan
 # variable for the moving dashes
 offset = 0
 
+# initializing a flag to track key press state
+key_pressed = False
+
+# for speed
+speed = 1
+
 while True:
     game.background_color((0,0,0))
     # drawing the grass at both sides of the roads
@@ -72,9 +78,9 @@ while True:
         right_lane_car.load()
 
 
-    left_lane_car.update_position(ypos=left_lane_car.ypos+1)
-    center_lane_car.update_position(ypos=center_lane_car.ypos+1)
-    right_lane_car.update_position(ypos=right_lane_car.ypos+1)
+    left_lane_car.update_position(ypos=left_lane_car.ypos+speed)
+    center_lane_car.update_position(ypos=center_lane_car.ypos+speed)
+    right_lane_car.update_position(ypos=right_lane_car.ypos+speed)
 
     # killing characters if they have exceeded the bottom screen
     if left_lane_car.ypos >= game.wheight:
@@ -84,9 +90,33 @@ while True:
     if right_lane_car.ypos >= game.wheight:
         right_lane_car.kill()
 
+    # checking for keystrokes and working accordingly
+    if game.left_pressed:
+        if not key_pressed:
+            if player_car.xpos >= 180:
+                player_car.xpos = player_car.xpos - 70
+            key_pressed = True
+    elif game.right_pressed:
+        if not key_pressed:
+            if player_car.xpos >= 110 and player_car.xpos <= 180:
+                player_car.xpos = player_car.xpos + 70
+            key_pressed = True
+    else:
+        # reset the flag if no key currently pressed
+        key_pressed = False
+
+    # adding more speed when the up arrow key is pressed
+    if game.up_pressed:
+        speed = 3
+    else:
+        speed = 1
+
     # updating the offset to create the motion effect
-    offset += 3 # we can change the speed of the dashes by changing this value
+    offset += 2+speed # we can change the speed of the dashes by changing this value
     if offset >= 40: # reset the offset
         offset = 0
 
+    # setting fps
+    game.set_fps(60)
+    # refreshing window
     game.refresh_window()
